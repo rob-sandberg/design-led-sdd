@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "design-led-sdd",
+  "owner": {
+    "name": "Rob Sandberg"
+  },
+  "metadata": {
+    "description": "Design-led spec-driven development for game teams working with AI agents."
+  },
+  "plugins": [
+    {
+      "name": "dl-prototype",
+      "source": "./plugins/dl-prototype",
+      "description": "Prototype tier: light, design-led specs for games that are still finding their fun.",
+      "version": "0.1.0"
+    }
+  ]
+}

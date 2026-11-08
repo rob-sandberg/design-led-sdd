@@ -1,0 +1,9 @@
+{
+  "name": "dl-prototype",
+  "version": "0.1.0",
+  "description": "Prototype tier of the design-led SDD method: constitution, feature specs, short briefs, clarify and analyse gates, job-story tasks, and spec revision after playtests.",
+  "author": {
+    "name": "Rob Sandberg"
+  },
+  "keywords": ["game-development", "spec-driven-development", "design", "prototyping", "production"]
+}
