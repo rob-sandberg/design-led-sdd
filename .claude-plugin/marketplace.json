@@ -12,7 +12,7 @@
       "name": "dl-prototype",
       "source": "./plugins/dl-prototype",
       "description": "Prototype tier: light, design-led specs for games that are still finding their fun.",
-      "version": "0.2.0"
+      "version": "0.2.1"
     }
   ]
 }

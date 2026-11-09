@@ -8,7 +8,7 @@ It ships as a Claude Code plugin marketplace with two tiers:
 
 | Plugin | Tier | Status |
 | --- | --- | --- |
-| `dl-prototype` | Prototype: light specs for finding the fun | 0.2.0 |
+| `dl-prototype` | Prototype: light specs for finding the fun | 0.2.1 |
 | `dl-production` | Production: rules kept true across many changes | Planned |
 
 See `plugins/dl-prototype/principles/05-two-tiers.md` for when a feature moves from one to the other.
