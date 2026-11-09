@@ -2,6 +2,14 @@
 
 Newest first. Version numbers follow semantic versioning. Bump `plugin.json` and `marketplace.json` together.
 
+## dl-prototype 0.2.0 (2026-11-09)
+
+- Two starts: `constitution` is now the new-game start; new `adopt` skill for existing games.
+- New principle `06-two-starts.md`: spec the change, not the game; the build beats the document.
+- New template `sources.md`: old documents mapped to features, with trust and disagreements.
+- `spec` fills "Today" from the build and old documents when a feature already exists.
+- Open questions register gains a "Was" column for imported IDs.
+
 ## dl-prototype 0.1.0 (2026-11-08)
 
 - First version.

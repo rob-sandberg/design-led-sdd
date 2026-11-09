@@ -20,6 +20,7 @@ Read `principles/04-writing-specs.md` once before the first draft of a session.
 3. Search `specs/features/` for a feature this belongs to. Revising an existing spec beats creating an overlapping one.
 4. Compare the request with what the specs say happens today, and its words with the glossary. Note every mismatch.
 5. Check the request against the design pillars and the constitution's out-of-scope list before writing anything.
+6. **If the feature already exists in the game** (an existing project, or `specs/sources.md` maps old documents to it): fill the spec's "Today" section first, from the build or code and from the old documents listed in `sources.md`. Where they disagree, record what the build does, raise an open question, and say which is which. Then write the change on top. Link the old documents in the spec's Links line, and set the feature's row in `sources.md` to the new F number. Spec only what this change touches; do not backfill the rest of the old feature.
 
 ## Writing
 

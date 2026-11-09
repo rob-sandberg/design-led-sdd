@@ -1,11 +1,13 @@
 ---
 name: constitution
-description: Set up or update a game project for the design-led prototype method. Creates specs/constitution.md, AGENTS.md, the CLAUDE.md pointer, the open questions register, glossary and STATE.md. Use when starting a new game project, adding the method to an existing one, or changing the project's pillars, platforms, boundaries or agent rules.
+description: Set up a brand new game project for the design-led prototype method, or update any project's constitution. Creates specs/constitution.md, AGENTS.md, the CLAUDE.md pointer, the open questions register, glossary and STATE.md. Use when starting a new game, or changing a project's pillars, platforms, boundaries or agent rules. For a game that already has code or design docs, use the adopt skill instead.
 ---
 
 # Constitution
 
-Sets up the project layer of the method, or updates it. The constitution is the one file every agent reads before any other.
+Sets up the project layer of the method for a new game, or updates it on any project. The constitution is the one file every agent reads before any other.
+
+If the project already has code, design docs or tickets, stop and suggest the `adopt` skill: it drafts the constitution from what exists instead of asking for it.
 
 ## Where things come from
 

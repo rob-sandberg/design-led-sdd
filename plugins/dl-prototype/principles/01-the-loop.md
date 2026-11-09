@@ -2,6 +2,8 @@
 
 How a game team works with AI agents in the prototype tier. The designer directs and decides; agents do most of the hands-on work.
 
+Before the loop starts, a project takes one of two starts: `constitution` for a new game, `adopt` for an existing one. See `06-two-starts.md`.
+
 ## Three rules
 
 1. **Give the agent hands on the real project.** Editor, builds, logs, data. An agent that can only edit files is guessing.

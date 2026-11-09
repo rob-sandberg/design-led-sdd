@@ -4,9 +4,9 @@ The single register for the project. Every `?` in a spec has a row here. Newest 
 
 ## Open
 
-| ID | Question | Owner | Blocking | Raised | Spec |
-| --- | --- | --- | --- | --- | --- |
-| OQ-F001-001 | [Question, phrased as a choice where possible] | [role] | Yes / No | YYYY-MM-DD | [link] |
+| ID | Question | Owner | Blocking | Raised | Spec | Was |
+| --- | --- | --- | --- | --- | --- | --- |
+| OQ-F001-001 | [Question, phrased as a choice where possible] | [role] | Yes / No | YYYY-MM-DD | [link] | [old register ID, if imported] |
 
 ## Resolved
 

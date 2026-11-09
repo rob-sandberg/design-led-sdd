@@ -8,7 +8,7 @@ It ships as a Claude Code plugin marketplace with two tiers:
 
 | Plugin | Tier | Status |
 | --- | --- | --- |
-| `dl-prototype` | Prototype: light specs for finding the fun | 0.1.0, first version |
+| `dl-prototype` | Prototype: light specs for finding the fun | 0.2.0 |
 | `dl-production` | Production: rules kept true across many changes | Planned |
 
 See `plugins/dl-prototype/principles/05-two-tiers.md` for when a feature moves from one to the other.
@@ -28,9 +28,12 @@ To try it locally without installing: `claude --plugin-dir ./plugins/dl-prototyp
 
 Start in a game project and run the skills in Claude Code. Each one asks one question at a time, as multiple choice.
 
+**Two starts.** A brand new game begins with `constitution`. A game that already has code, design docs or tickets begins with `adopt`, which drafts everything from what exists and changes none of it. On an existing game, a feature gets a spec only when it is next changed.
+
 | Skill | What it does |
 | --- | --- |
-| `/dl-prototype:constitution` | Sets up the project: constitution, AGENTS.md, open questions, glossary, state file |
+| `/dl-prototype:constitution` | New game: sets up the constitution, AGENTS.md, open questions, glossary, state file |
+| `/dl-prototype:adopt` | Existing game: takes stock, drafts the project layer from existing docs, imports open questions, maps old docs to features |
 | `/dl-prototype:spec` | Full path: writes or revises a feature spec |
 | `/dl-prototype:brief` | Short path: one-page brief for a small change, optionally handed to a helper agent |
 | `/dl-prototype:clarify` | Works through open questions until a spec can be marked Ready |
@@ -50,6 +53,7 @@ specs/
   STATE.md                    where the work is; read first every session
   glossary.md                 words with a special meaning
   open-questions.md           every undecided place, with an owner
+  sources.md                  existing games: old documents mapped to features
   features/F001-name/
     spec.md                   intent, experience, scope, rules, states, parameters
     tasks.md                  stories and tasks for tickets
