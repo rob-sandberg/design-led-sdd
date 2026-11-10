@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>dl-prototype cheat sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f6f4f0}
+a{color:#b63f25}a:hover{color:#8f2f1b}
+</style>
+<style>@page{size:A4;margin:0}</style>
+</head>
+<body>
+<div style="width: 794px; height: 1123px; box-sizing: border-box; padding: 40px 44px; background: #f6f4f0; color: #23262b; font-family: Inter, Arial, sans-serif; display: flex; flex-direction: column; gap: 13px">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #23262b; padding-bottom: 10px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -0.5px">dl-prototype cheat sheet</h1>
+<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #4f535a">design-led SDD · prototype tier · v0.2.1</p>
+</div>
+<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #4f535a; text-align: right">/dl-prototype:&lt;skill&gt;<br>one question at a time</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px">The loop</h2>
+<div style="display: flex; align-items: center; gap: 6px; font-size: 12px">
+<div style="flex: 1 1 0; border: 1.5px solid #23262b; border-radius: 5px; background: #ffffff; padding: 6px 4px; text-align: center"><div style="font-weight: 600; font-size: 13px">Request</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; white-space: nowrap; color: #4f535a">spec, brief</div></div>
+<div style="font-size: 14px">→</div>
+<div style="flex: 1 1 0; border: 1.5px solid #23262b; border-radius: 5px; background: #ffffff; padding: 6px 4px; text-align: center"><div style="font-weight: 600; font-size: 13px">Clarify</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; white-space: nowrap; color: #4f535a">no open ?</div></div>
+<div style="font-size: 14px">→</div>
+<div style="flex: 1 1 0; border: 1.5px solid #23262b; border-radius: 5px; background: #ffffff; padding: 6px 4px; text-align: center"><div style="font-weight: 600; font-size: 13px">Analyse</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; white-space: nowrap; color: #4f535a">fresh agent</div></div>
+<div style="font-size: 14px">→</div>
+<div style="flex: 1 1 0; border: 1.5px solid #23262b; border-radius: 5px; background: #ffffff; padding: 6px 4px; text-align: center"><div style="font-weight: 600; font-size: 13px">Tasks</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; white-space: nowrap; color: #4f535a">tickets</div></div>
+<div style="font-size: 14px">→</div>
+<div style="flex: 1 1 0; border: 1.5px solid #23262b; border-radius: 5px; background: #ffffff; padding: 6px 4px; text-align: center"><div style="font-weight: 600; font-size: 13px">Build</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; white-space: nowrap; color: #4f535a">lead + 2</div></div>
+<div style="font-size: 14px">→</div>
+<div style="flex: 1 1 0; border: 1.5px solid #23262b; border-radius: 5px; background: #ffffff; padding: 6px 4px; text-align: center"><div style="font-weight: 600; font-size: 13px">Prove</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; white-space: nowrap; color: #4f535a">on target</div></div>
+<div style="font-size: 14px">→</div>
+<div style="flex: 1 1 0; border: 2.5px solid #23262b; border-radius: 5px; background: #23262b; color: #ffffff; padding: 6px 4px; text-align: center"><div style="font-weight: 600; font-size: 13px">Playtest</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; white-space: nowrap; color: #e6e6e6">revise</div></div>
+</div>
+<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #b63f25">↺ rule or scope change goes back into the spec and reruns analyze · tuning goes straight in</p>
+<p style="margin: 0; font-size: 12px"><span style="font-weight: 600">Two starts.</span> New game: <span style="font-family: 'IBM Plex Mono', monospace">constitution</span>. Existing game: <span style="font-family: 'IBM Plex Mono', monospace">adopt</span>, then spec the change, not the game; the build beats the document.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+
+<div style="display: flex; flex-direction: column; gap: 8px; background: #ffffff; border: 1.5px solid #23262b; border-radius: 5px; padding: 10px 14px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px">Eight skills</h2>
+<div style="display: grid; grid-template-columns: 92px minmax(0, 1fr); row-gap: 4px; column-gap: 10px; font-size: 12px; line-height: 1.35">
+<div style="font-family: 'IBM Plex Mono', monospace; font-weight: 500">constitution</div><div>New game: pillars, platforms, rules</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-weight: 500">adopt</div><div>Existing game: start from its docs</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-weight: 500">spec</div><div>Full path: write a feature spec</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-weight: 500">brief</div><div>Short path: one page, one helper</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-weight: 500">clarify</div><div>Work open questions to Ready</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-weight: 500">analyze</div><div>Separate agent checks consistency</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-weight: 500">tasks</div><div>Job stories, Gherkin, tasks</div>
+<div style="font-family: 'IBM Plex Mono', monospace; font-weight: 500">playtest</div><div>Turn a session into spec changes</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; background: #ffffff; border: 1.5px solid #23262b; border-radius: 5px; padding: 10px 14px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px">Write a rule</h2>
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.45; background: #f6f4f0; border-radius: 4px; padding: 8px 10px">
+<div>F003.claim-once: one gift a day</div>
+<div><span>When&#160;&#160;&#160;&#160;&#160;</span> player opens the panel</div>
+<div><span style="color: #b63f25; font-weight: 500">Provided</span>&#160; not claimed today</div>
+<div><span>Then&#160;&#160;&#160;&#160;&#160;</span> button is active</div>
+<div><span style="color: #b63f25; font-weight: 500">Otherwise</span> shows next-gift time</div>
+</div>
+<ul style="margin: 0; padding-left: 18px; font-size: 12px; line-height: 1.45">
+<li>A stable ID: <span style="font-family: 'IBM Plex Mono', monospace">F003.short-id</span></li>
+<li>Always an <span style="color: #b63f25; font-weight: 600">Otherwise</span>: most bugs live there</li>
+<li>Examples on both sides of the guard</li>
+<li>Tuning values in Parameters, never in rule text</li>
+</ul>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; background: #ffffff; border: 2.5px solid #23262b; border-radius: 5px; padding: 10px 14px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px">Ready gate</h2>
+<ol style="margin: 0; padding-left: 20px; font-size: 12px; line-height: 1.4">
+<li>Intent, experience, scope in and out</li>
+<li>Every rule has an example</li>
+<li>No blocking <span style="color: #b63f25; font-weight: 600">?</span> still Open</li>
+<li>Special terms in the glossary</li>
+<li><span style="font-family: 'IBM Plex Mono', monospace">analyze</span> clean on the final state</li>
+<li>The designer marks it Ready</li>
+</ol>
+<p style="margin: 0; font-size: 12px; color: #4f535a">Done = played on the target, reviewed by someone else, deviations written back.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; background: #ffffff; border: 1.5px solid #23262b; border-radius: 5px; padding: 10px 14px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px">Open questions</h2>
+<ul style="margin: 0; padding-left: 18px; font-size: 12px; line-height: 1.4">
+<li>Mark it inline: <span style="color: #b63f25; font-weight: 600; font-family: 'IBM Plex Mono', monospace">?</span> Nothing with a blocking ? is built</li>
+<li>One register row each: <span style="font-family: 'IBM Plex Mono', monospace">OQ-F001-002</span></li>
+<li>Columns: question, owner, blocking, status</li>
+<li>Status: Open · Resolved: answer · Deferred</li>
+<li>Phrase it as a choice, recommended option first</li>
+<li>Business questions go to the owner</li>
+</ul>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; background: #ffffff; border: 1.5px solid #23262b; border-radius: 5px; padding: 10px 14px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px">Who decides</h2>
+<div style="display: grid; grid-template-columns: 74px minmax(0, 1fr); row-gap: 4px; column-gap: 10px; font-size: 12px; line-height: 1.35">
+<div style="font-weight: 600">Owner</div><div>What the game does, scope, word meanings</div>
+<div style="font-weight: 600">Designer</div><div>Design gaps, playtest conclusions</div>
+<div style="font-weight: 600">Producer</div><div>Priority, scope, ready and done</div>
+<div style="font-weight: 600">Agents</div><div>Nothing. They stop and report gaps</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px; background: #ffffff; border: 1.5px solid #23262b; border-radius: 5px; padding: 10px 14px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px">Graduate to production when</h2>
+<ul style="margin: 0; padding-left: 18px; font-size: 12px; line-height: 1.4">
+<li>A wrong rule costs money or trust (economy, rewards, ads)</li>
+<li>Other features keep breaking when it changes</li>
+<li>It is live, changed by people who did not design it</li>
+<li>Playtests only change its tuning values</li>
+</ul>
+<p style="margin: 0; font-size: 12px; color: #4f535a">Feel and visuals stay in the prototype tier for good.</p>
+</div>
+
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px">Job story</h2>
+<p style="margin: 0; font-size: 12px; line-height: 1.4"><span style="font-weight: 600">When</span> [situation], <span style="font-weight: 600">I want to</span> [goal], <span style="font-weight: 600">so I can</span> [outcome]. One per ticket. Criteria: happy path, guard, error.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px">In every project</h2>
+<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; line-height: 1.4">AGENTS.md · specs/constitution.md · STATE.md · glossary.md · open-questions.md · sources.md (existing games) · features/F001-name/ · briefs/</p>
+</div>
+</div>
+
+<div style="margin-top: auto; border-top: 1.5px solid #23262b; padding-top: 10px; display: flex; flex-direction: column; gap: 4px">
+<p style="margin: 0; font-size: 14px; font-weight: 600">Agents report; people decide. The spec keeps the reasons.</p>
+<p style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; white-space: nowrap; color: #4f535a">Short path: a brief. Bigger than a page? It is a feature.</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1121" width="2048" height="1121">
+<defs>
+<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#23262b"/></marker>
+<marker id="ars" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M10,0 L0,5 L10,10 z" fill="#23262b"/></marker>
+<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d6512b"/></marker>
+</defs>
+<rect width="2048" height="1121" fill="#f6f4f0"/>
+<text x="73" y="80" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="600" fill="#23262b" text-anchor="start">1<tspan dx="12">Request</tspan></text>
+<text x="419" y="80" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="end">spec · brief</text>
+<line x1="73" y1="97" x2="419" y2="97" stroke="#23262b" stroke-width="2"/>
+<text x="468" y="80" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="600" fill="#23262b" text-anchor="start">2<tspan dx="12">Specification</tspan></text>
+<text x="814" y="80" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="end">clarify</text>
+<line x1="468" y1="97" x2="814" y2="97" stroke="#23262b" stroke-width="2"/>
+<text x="863" y="80" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="600" fill="#23262b" text-anchor="start">3<tspan dx="12">Analyse</tspan></text>
+<text x="1209" y="80" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="end">analyze</text>
+<line x1="863" y1="97" x2="1209" y2="97" stroke="#23262b" stroke-width="2"/>
+<text x="1258" y="80" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="600" fill="#23262b" text-anchor="start">4<tspan dx="12">Build</tspan></text>
+<text x="1604" y="80" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="end">tasks · brief</text>
+<line x1="1258" y1="97" x2="1604" y2="97" stroke="#23262b" stroke-width="2"/>
+<text x="1653" y="80" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="600" fill="#23262b" text-anchor="start">5<tspan dx="12">Playtest</tspan></text>
+<text x="1999" y="80" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="end">playtest</text>
+<line x1="1653" y1="97" x2="1999" y2="97" stroke="#23262b" stroke-width="2"/>
+<rect x="73" y="146" width="346" height="121" rx="5" fill="#23262b" stroke="#23262b" stroke-width="1.5"/>
+<text x="95" y="180" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="start">Client or product owner</text>
+<text x="95" y="210" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#ffffff" text-anchor="start">never reads the specs;</text>
+<text x="95" y="233" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#ffffff" text-anchor="start">gets a plain summary</text>
+<path d="M246,272 L246,360" stroke="#23262b" stroke-width="1.6" marker-start="url(#ars)" marker-end="url(#ar)"/>
+<text x="259" y="322" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">questions / answers</text>
+<rect x="73" y="365" width="346" height="122" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="95" y="395" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="12" font-weight="400" fill="#23262b" text-anchor="start" letter-spacing="1.2">AGENT</text>
+<text x="95" y="425" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Spec skill</text>
+<text x="95" y="455" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">asks one at a time,</text>
+<text x="95" y="478" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">never decides</text>
+<path d="M246,487 L246,555" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="73" y="560" width="346" height="122" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="95" y="594" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Request</text>
+<text x="95" y="624" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">intent · scope · job stories</text>
+<text x="95" y="647" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" xml:space="preserve"><tspan fill="#23262b">short path: </tspan><tspan fill="#d6512b">brief</tspan><tspan fill="#23262b"> · full: </tspan><tspan fill="#d6512b">spec</tspan></text>
+<path d="M419,621 L443,621 L443,718 L463,718" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="468" y="146" width="346" height="462" rx="5" fill="none" stroke="#23262b" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="488" y="176" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">specs/, beside the code</text>
+<text x="488" y="200" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="14" font-weight="400" fill="#23262b" text-anchor="start">constitution → feature → rule</text>
+<rect x="488" y="218" width="306" height="128" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="510" y="256" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Rules</text>
+<text x="510" y="290" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" xml:space="preserve"><tspan fill="#23262b">When · </tspan><tspan fill="#d6512b">Provided</tspan><tspan fill="#23262b"> ·</tspan></text>
+<text x="510" y="317" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" xml:space="preserve"><tspan fill="#23262b">Then · </tspan><tspan fill="#d6512b">Otherwise</tspan><tspan fill="#23262b"> + examples</tspan></text>
+<rect x="488" y="365" width="306" height="102" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="510" y="403" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Open questions</text>
+<text x="510" y="437" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" xml:space="preserve"><tspan fill="#d6512b">?</tspan><tspan fill="#23262b"> blocks building · owner</tspan></text>
+<rect x="488" y="487" width="148" height="47" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="562.0" y="516.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#23262b" text-anchor="middle">Constitution</text>
+<rect x="646" y="487" width="148" height="47" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="720.0" y="516.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#23262b" text-anchor="middle">Glossary</text>
+<rect x="488" y="543" width="148" height="47" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="562.0" y="572.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#23262b" text-anchor="middle">States</text>
+<rect x="646" y="543" width="148" height="47" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="720.0" y="572.5" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="600" fill="#23262b" text-anchor="middle">Parameters</text>
+<rect x="468" y="677" width="346" height="110" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="490" y="707" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="12" font-weight="400" fill="#23262b" text-anchor="start" letter-spacing="1.2">AGENT</text>
+<text x="490" y="737" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Clarify</text>
+<text x="490" y="767" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">sorts who answers what</text>
+<path d="M641,677 L641,613" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<text x="654" y="636" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">decisions written in,</text>
+<text x="654" y="656" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">? removed</text>
+<path d="M641,792 L641,848" stroke="#23262b" stroke-width="1.6" marker-start="url(#ars)" marker-end="url(#ar)"/>
+<text x="654" y="826" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">questions / answers</text>
+<rect x="468" y="853" width="346" height="97" rx="5" fill="#23262b" stroke="#23262b" stroke-width="1.5"/>
+<text x="490" y="887" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="start">Designer</text>
+<text x="490" y="917" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#ffffff" text-anchor="start">decides gaps · marks Ready</text>
+<path d="M468,768 L246,768 L246,687" fill="none" stroke="#d6512b" stroke-width="1.6" marker-end="url(#arr)"/>
+<text x="87" y="795" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#d6512b" text-anchor="start">business questions ·</text>
+<text x="87" y="816" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#d6512b" text-anchor="start">plain summary to the owner</text>
+<path d="M814,243 L858,243" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="863" y="195" width="346" height="97" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="885" y="229" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Analysis pack</text>
+<text x="885" y="259" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">spec · constitution · glossary</text>
+<path d="M1036,292 L1036,360" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="863" y="365" width="346" height="127" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="885" y="395" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="12" font-weight="400" fill="#23262b" text-anchor="start" letter-spacing="1.2">AGENT</text>
+<text x="885" y="425" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Checking agent</text>
+<text x="885" y="455" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">fresh each run, sees no code,</text>
+<text x="885" y="478" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">tickets or playtests</text>
+<path d="M1036,492 L1036,580" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<text x="1049" y="541" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">judge</text>
+<rect x="863" y="585" width="346" height="98" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="885" y="619" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Analysis report</text>
+<text x="885" y="649" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">findings · blocking · advisory</text>
+<path d="M1036,683 L1036,738" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="863" y="743" width="346" height="98" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="2.6"/>
+<text x="885" y="777" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Ready gate</text>
+<text x="885" y="807" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">no blocking ? · no open finding</text>
+<path d="M863,650 L838,650 L838,928 L819,928" fill="none" stroke="#d6512b" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M1209,792 L1233,792 L1233,243 L1253,243" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="1258" y="195" width="346" height="97" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="1280" y="229" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Tasks</text>
+<text x="1280" y="259" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">job stories · Gherkin · tickets</text>
+<path d="M1431,292 L1431,324 L1336,324 L1336,360" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<path d="M1431,324 L1526,324 L1526,360" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="1258" y="365" width="157" height="127" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="1280" y="395" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="12" font-weight="400" fill="#23262b" text-anchor="start" letter-spacing="1.2">AGENT</text>
+<text x="1280" y="425" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Lead</text>
+<text x="1280" y="455" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">plans, briefs,</text>
+<text x="1280" y="478" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">reviews</text>
+<rect x="1447" y="365" width="157" height="127" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="1469" y="395" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="12" font-weight="400" fill="#23262b" text-anchor="start" letter-spacing="1.2">AGENT</text>
+<text x="1469" y="425" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Helpers</text>
+<text x="1469" y="455" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">one task each,</text>
+<text x="1469" y="478" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">max two</text>
+<line x1="1431" y1="355" x2="1431" y2="512" stroke="#23262b" stroke-width="1.6" stroke-dasharray="5 5"/>
+<text x="1431" y="535" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="middle">never on the</text>
+<text x="1431" y="555" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="middle">same files</text>
+<path d="M1336,492 L1336,604" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<path d="M1526,492 L1526,604" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="1258" y="609" width="346" height="74" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="1280" y="643" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="21" font-weight="600" fill="#23262b" text-anchor="start">Prove it on the target</text>
+<text x="1280" y="669" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="14" font-weight="400" fill="#23262b" text-anchor="start">a playable build, not “it compiled”</text>
+<path d="M1431,683 L1431,884 L819,884" fill="none" stroke="#d6512b" stroke-width="1.6" marker-end="url(#arr)"/>
+<text x="845" y="906" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#d6512b" text-anchor="start">gaps the spec doesn't decide</text>
+<text x="845" y="952" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#d6512b" text-anchor="start">findings: resolve by edit, or dismiss with a reason</text>
+<path d="M1604,646 L1648,646" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="1653" y="146" width="346" height="102" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="1675" y="174" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="12" font-weight="400" fill="#23262b" text-anchor="start" letter-spacing="1.2">NOTE</text>
+<text x="1675" y="203" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="400" fill="#23262b" text-anchor="start">Agents report; people decide.</text>
+<text x="1675" y="229" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="400" fill="#23262b" text-anchor="start">The spec keeps the reasons.</text>
+<rect x="1653" y="330" width="346" height="110" rx="5" fill="#23262b" stroke="#23262b" stroke-width="1.5"/>
+<text x="1675" y="364" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="start">Players and team</text>
+<text x="1675" y="394" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#ffffff" text-anchor="start">play the build; record what</text>
+<text x="1675" y="417" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#ffffff" text-anchor="start">they did, not what they think</text>
+<path d="M1826,440 L1826,567" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="1653" y="572" width="346" height="135" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="1675" y="602" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="12" font-weight="400" fill="#23262b" text-anchor="start" letter-spacing="1.2">EACH SESSION</text>
+<text x="1675" y="632" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#23262b" text-anchor="start">Playtest log</text>
+<text x="1675" y="662" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">hypotheses: held · failed ·</text>
+<text x="1675" y="685" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">unclear, with evidence</text>
+<path d="M1826,707 L1826,738" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="1653" y="743" width="346" height="74" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="1.5"/>
+<text x="1675" y="777" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="21" font-weight="600" fill="#23262b" text-anchor="start">Spec changes</text>
+<text x="1675" y="803" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">tuning · rule · scope · pillar</text>
+<path d="M1826,817 L1826,845" fill="none" stroke="#23262b" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="1653" y="850" width="346" height="104" rx="5" fill="#ffffff" stroke="#23262b" stroke-width="2.6"/>
+<text x="1675" y="884" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="21" font-weight="600" fill="#23262b" text-anchor="start">Graduation check</text>
+<text x="1675" y="914" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">settled economy or rewards →</text>
+<text x="1675" y="937" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="15" font-weight="400" fill="#23262b" text-anchor="start">production tier (planned)</text>
+<path d="M1999,780 L2024,780 L2024,985 L443,985 L443,575 L463,575" fill="none" stroke="#d6512b" stroke-width="2" marker-end="url(#arr)"/>
+<text x="1024" y="1013" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="17" font-weight="400" fill="#d6512b" text-anchor="middle">what the build teaches goes back into the spec</text>
+<text x="1024" y="1037" font-family="'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace" font-size="14" font-weight="400" fill="#23262b" text-anchor="middle">Rule and scope changes rerun analyze; tuning changes go straight in.</text>
+<line x1="73" y1="1055" x2="1999" y2="1055" stroke="#23262b" stroke-width="1.5"/>
+<text x="73" y="1090" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="400" fill="#23262b" text-anchor="start">One spec carries the design and its reasons: designers decide, agents build and report, every playtest feeds back in.</text>
+</svg>

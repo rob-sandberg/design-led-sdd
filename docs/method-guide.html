@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method guide · Design-led SDD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f6f4f0;--ink:#23262b;--quiet:#4f535a;--red:#b63f25}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif;font-size:17px;line-height:1.65}
+a{color:var(--red)}
+header{border-bottom:2px solid var(--ink)}
+header div,main{max-width:860px;margin:0 auto;padding:16px 24px}
+header a{font-weight:700;text-decoration:none;color:var(--ink)}
+header span{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--quiet);margin-left:12px}
+main{padding-top:40px;padding-bottom:80px}
+h1{font-size:clamp(32px,5vw,46px);line-height:1.1;letter-spacing:-1px;margin:0 0 20px}
+h2{font-size:24px;letter-spacing:-.3px;margin:44px 0 12px;padding-top:16px;border-top:1.5px solid var(--ink)}
+code{font-family:'IBM Plex Mono',monospace;font-size:.9em;background:#ebe7df;padding:1px 4px;border-radius:3px}
+pre{background:#fff;border:1.5px solid var(--ink);border-radius:5px;padding:16px 18px;overflow-x:auto;line-height:1.55}
+pre code{background:none;padding:0;font-size:14px}
+table{width:100%;border-collapse:collapse;background:#fff;border:1.5px solid var(--ink);font-size:15px;margin:12px 0 20px;display:block;overflow-x:auto}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #d9d6cf;vertical-align:top}
+th{background:#efece6;font-weight:600}
+blockquote{margin:16px 0;padding:10px 18px;border-left:3px solid var(--red);background:#fff}
+img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
+</style>
+</head>
+<body>
+<header><div><a href="index.html">Design-led SDD</a><span>Method guide</span></div></header>
+<main>
+<h1>Design-led SDD: Method guide</h1>
+<p>Design-led SDD is a spec-driven method for game teams working with AI agents, where design leads and code follows. Games find their design by being played, so the spec has to change after every playtest without losing the reasons behind it. This guide covers the prototype tier, shipped as the Claude Code plugin <code>dl-prototype</code> 0.2.1; a production tier for rules that must stay true across many changes is planned.</p>
+<p>Sections 1 to 6 describe the method, section 7 the skills that run it, and section 8 what it puts in a project.</p>
+<p><img alt="The dl-prototype method flow" src="dl-prototype-flow.png" /></p>
+<h2>1. The loop</h2>
+<p>The designer directs and decides; agents do most of the hands-on work, and every build feeds back into the spec.</p>
+<p><strong>Three rules</strong></p>
+<ol>
+<li><strong>Give the agent hands on the real project:</strong> editor, builds, logs, data. An agent that can only edit files is guessing.</li>
+<li><strong>Prove it on the real target:</strong> a device, an emulator, a playable build. "It compiled" is not proof.</li>
+<li><strong>Write down what you learn the same day, with the reason.</strong> Every mistake becomes a rule.</li>
+</ol>
+<p><strong>The loop</strong></p>
+<ol>
+<li><strong>Spec first.</strong> Search the specs; settle small gaps, raise real design decisions as open questions.</li>
+<li><strong>Choose the path:</strong> a brief for a small change, a feature spec for a new feature or system.</li>
+<li><strong>Clarify.</strong> No feature leaves Draft with a blocking open question.</li>
+<li><strong>Analyse</strong> the spec against the constitution, glossary and other specs.</li>
+<li><strong>Break it down</strong> into job stories with acceptance criteria.</li>
+<li><strong>Build</strong> on a branch, in slices that can be played.</li>
+<li><strong>Prove it</strong> on the target, then review. Never ship what you cannot explain.</li>
+<li><strong>Playtest and revise.</strong> What the build teaches goes back into the spec.</li>
+<li><strong>Write it down:</strong> state file, decisions, new rules.</li>
+</ol>
+<p>Steps 6 to 8 repeat until the feature is fun. The spec then records why it is the way it is.</p>
+<p><strong>Two paths</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Short path</th>
+<th>Full path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Use for</td>
+<td>A fix, a tweak, a tuning pass, one slice of a feature</td>
+<td>A new feature or system, anything another discipline builds on</td>
+</tr>
+<tr>
+<td>Artefact</td>
+<td>One brief</td>
+<td>Feature folder: spec, tasks, playtest log</td>
+</tr>
+<tr>
+<td>Gates</td>
+<td>Read the constitution; prove it on the target</td>
+<td>Clarify, analyse, ready check, prove, playtest</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td><code>brief</code></td>
+<td><code>spec</code>, <code>clarify</code>, <code>analyze</code>, <code>tasks</code>, <code>playtest</code></td>
+</tr>
+</tbody>
+</table>
+<p>If a brief grows past one page, it is a feature.</p>
+<p><strong>Roles</strong></p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Designer or producer</td>
+<td>Priorities, design calls, approves anything irreversible or public, reviews what ships</td>
+</tr>
+<tr>
+<td>Lead agent</td>
+<td>One long session: plans, writes briefs, reviews, keeps specs and the state file current</td>
+</tr>
+<tr>
+<td>Helper agents</td>
+<td>One briefed task each, then stopped; at most two at once, never on the same files</td>
+</tr>
+<tr>
+<td>Scheduled agent</td>
+<td>Runs on a timer for checks and summaries</td>
+</tr>
+</tbody>
+</table>
+<h2>2. Two starts: a new game or an existing one</h2>
+<p>Before the loop, a project takes one of two starts, because the truth lives in different places.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>New game</th>
+<th>Existing game</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where the truth is</td>
+<td>In people's heads and a pitch</td>
+<td>Spread across code, design docs, tickets, wikis and the build</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td><code>constitution</code></td>
+<td><code>adopt</code></td>
+</tr>
+<tr>
+<td>Constitution</td>
+<td>Built from questions</td>
+<td>Drafted from existing docs and code, then confirmed</td>
+</tr>
+<tr>
+<td>Glossary</td>
+<td>Invented as you go</td>
+<td>Pulled from code and UI; mismatches become open questions</td>
+</tr>
+<tr>
+<td>Open questions</td>
+<td>Start empty</td>
+<td>Imported from existing registers, plus contradictions between docs</td>
+</tr>
+<tr>
+<td>Feature specs</td>
+<td>Written before building</td>
+<td>Written when a feature is next changed</td>
+</tr>
+<tr>
+<td>Biggest risk</td>
+<td>Specs that never meet a build</td>
+<td>Specs that describe the game as documented, not as built</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Spec the change, not the game.</strong> On an existing game, never backfill specs for everything. A feature gets a spec the first time it is changed, written from the current build plus the change. Untouched features stay in their old documents, mapped in <code>specs/sources.md</code>.</p>
+<p><strong>The build beats the document.</strong> When an old document and the build disagree, record what the build does, raise the disagreement as an open question, and let the designer decide.</p>
+<h2>3. Who decides</h2>
+<p>Agents write faster than anyone can review, so every call has a named owner and every call lands in a spec.</p>
+<table>
+<thead>
+<tr>
+<th>Who</th>
+<th>Decides</th>
+<th>Never</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Client or product owner</td>
+<td>What the game should do, what a word means, what is in or out of scope</td>
+<td>Has to read the specs to approve; gets a plain summary instead</td>
+</tr>
+<tr>
+<td>Designer</td>
+<td>How a request becomes a spec, every design gap the agents find, playtest conclusions</td>
+<td>Leaves a decision in a chat or a head</td>
+</tr>
+<tr>
+<td>Producer</td>
+<td>Priority, scope per milestone, what is ready, what is done</td>
+<td>Overrides a spec silently</td>
+</tr>
+<tr>
+<td>Agents</td>
+<td>Nothing about the game; they report what the spec did not decide</td>
+<td>Fill a design gap with a guess and carry on</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>An agent that meets a gap stops and reports it, with a recommendation. It takes a default only where the constitution lists the call as an agent call.</li>
+<li>Business questions go to the owner. The place stays open (<code>?</code>) until they answer.</li>
+<li>Every hole ends decided in the spec, or open in the register with an owner.</li>
+<li>Spec conflicts are raised as open questions, never resolved quietly.</li>
+<li>Questions are asked one at a time, as multiple choice with the recommended option first.</li>
+</ul>
+<h2>4. Ready and done</h2>
+<p>Work that does not meet Ready stays in the queue; work that does not meet Done does not move to Done. Work that fails review never moves backwards: the rework is a new item.</p>
+<p><strong>A feature spec is Ready when</strong></p>
+<ol>
+<li>Intent, player experience and scope (in and out) are written</li>
+<li>Every rule has at least one example</li>
+<li>No blocking open question is still Open</li>
+<li>Every special term is in the glossary</li>
+<li><code>analyze</code> has run on its final state with no unresolved finding</li>
+<li>The designer has marked it Ready</li>
+</ol>
+<p><strong>Any task is Ready when</strong> its title follows the naming convention, it links to its spec or brief, it has at least three acceptance criteria (what, not how), its parent story is linked, and its dependencies are done or accepted as a risk.</p>
+<p><strong>Any task is Done when</strong> every acceptance criterion is verified on the target, a second person or a separate checking agent has reviewed it, no known defect blocks the next discipline, a one-sentence completion note exists, and any deviation from the spec is written into the spec or raised as an open question.</p>
+<p><strong>A story is Done when</strong> all its tasks are Done, the player can do what the job story says in a playable build, a designer or producer has played it, and its happy path, guard and error scenarios pass.</p>
+<h2>5. Writing specs</h2>
+<p>Specs serve two readers at once: an agent that builds from them without asking, and a person who scans them in minutes.</p>
+<p><strong>Job stories, not user stories.</strong> <em>When</em> [situation], <em>I want to</em> [goal], <em>so I can</em> [outcome]. The When is a real situation, not a role. One job story per ticket.</p>
+<p><strong>Rules with a guard.</strong> A rule says what happens when a condition holds and what happens when it does not. The second half is where most game bugs live.</p>
+<pre><code class="language-gherkin">Rule: The daily gift can be claimed once per day
+  When      the player opens the gift panel
+  Provided  the player has not claimed today's gift
+  Then      the claim button is active
+  Otherwise the button shows the time until the next gift
+</code></pre>
+<p>Under each rule, an examples table gives concrete cases on both sides of the guard:</p>
+<table>
+<thead>
+<tr>
+<th>situation</th>
+<th>provided</th>
+<th>outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>first open today</td>
+<td>yes</td>
+<td>button active</td>
+</tr>
+<tr>
+<td>claimed at 09:00, opens at 09:05</td>
+<td>no</td>
+<td>"Next gift in 14h 55m"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Undecided places.</strong> Mark anything undecided with <code>?</code> inline and add a row to the open questions register. Nothing with a blocking <code>?</code> is built.</p>
+<p><strong>Conventions</strong></p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Convention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open question IDs</td>
+<td><code>OQ-F003-002</code> per feature, <code>OQ-NNN</code> project-wide; status Open, Resolved: answer, or Deferred</td>
+</tr>
+<tr>
+<td>Changelog rows</td>
+<td>Date, what changed, who; newest at the top</td>
+</tr>
+<tr>
+<td>Risks</td>
+<td>"If [condition], then [consequence]."</td>
+</tr>
+<tr>
+<td>Numbering</td>
+<td>Highest in the prefix group plus one; 90 to 99 reserved for registers and indexes</td>
+</tr>
+<tr>
+<td>Vocabulary</td>
+<td>Player word and code word both in the glossary</td>
+</tr>
+<tr>
+<td>Authorship</td>
+<td>Role titles, never agent names, in anything outsiders read</td>
+</tr>
+</tbody>
+</table>
+<h2>6. Two tiers</h2>
+<p>A game changes character as it moves from finding the fun to running live, so the method has a light tier and a strict one.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Prototype tier (<code>dl-prototype</code>)</th>
+<th>Production tier (planned)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purpose</td>
+<td>Find the fun fast, keep decisions visible</td>
+<td>Keep rules true across many changes</td>
+</tr>
+<tr>
+<td>Spec shape</td>
+<td>Feature folders, guarded rules where they matter</td>
+<td>Spec tree of capabilities, features and rules with stable IDs</td>
+</tr>
+<tr>
+<td>Change control</td>
+<td>Specs revised after each playtest</td>
+<td>Every change an amendment on a branch, diffed against a baseline</td>
+</tr>
+<tr>
+<td>Checking</td>
+<td><code>analyze</code> reads specs for consistency</td>
+<td>Mechanical impact analysis plus an independent checking agent</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>Played on the target against acceptance criteria</td>
+<td>Independent testing and coding agents; tests checked with mutants</td>
+</tr>
+<tr>
+<td>Overhead</td>
+<td>Low</td>
+<td>High, on purpose</td>
+</tr>
+</tbody>
+</table>
+<p><strong>A feature graduates when</strong> getting a rule wrong costs real money or trust (economy, rewards, purchases, ads, progression, outcome resolution, age gates, consent); when other features keep breaking as it changes; when it is live and changed by people who did not design it; or when playtests only change its tuning values.</p>
+<p>Feel and visual work (layout, juice, animation, art direction) stays in the prototype tier for the life of the game.</p>
+<p><strong>Writing for graduation now</strong> keeps the move cheap: guarded rules with an <code>Otherwise</code>, a stable ID per rule (<code>F003.claim-once</code>), and tuning values in the Parameters table, not in rule text.</p>
+<h2>7. The eight skills</h2>
+<p>Each skill runs one step in Claude Code, asks one question at a time, and writes into the project's <code>specs/</code> folder.</p>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Does</th>
+<th>Use when</th>
+<th>Gate it enforces</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>constitution</code></td>
+<td>Sets up the constitution, AGENTS.md, open questions, glossary and state file</td>
+<td>Starting a new game, or changing pillars, platforms or agent rules</td>
+<td>Every agent reads the constitution first</td>
+</tr>
+<tr>
+<td><code>adopt</code></td>
+<td>Takes stock of an existing game, drafts the project layer from its docs, imports open questions, maps old docs to features</td>
+<td>Bringing the method into a game already in development or live</td>
+<td>Changes nothing that already exists</td>
+</tr>
+<tr>
+<td><code>spec</code></td>
+<td>Writes or revises a feature spec, full path</td>
+<td>A new feature, mechanic, system or screen flow</td>
+<td>Undecided places marked <code>?</code>, never guessed</td>
+</tr>
+<tr>
+<td><code>brief</code></td>
+<td>Writes a one-page brief and can hand it to a helper agent, short path</td>
+<td>A fix, tweak, tuning pass or single slice</td>
+<td>Must end with proof on the target</td>
+</tr>
+<tr>
+<td><code>clarify</code></td>
+<td>Works through open questions and finds unmarked gaps</td>
+<td>Blocking questions remain, or answers come back</td>
+<td>No Ready while a blocking question is Open</td>
+</tr>
+<tr>
+<td><code>analyze</code></td>
+<td>Checks a spec against the constitution, glossary and other specs, as a separate agent</td>
+<td>Before Ready, after a revision or playtest change</td>
+<td>No Ready with an unresolved blocking finding</td>
+</tr>
+<tr>
+<td><code>tasks</code></td>
+<td>Turns a Ready spec into job stories, Gherkin criteria and tasks per discipline</td>
+<td>The team needs tickets</td>
+<td>Only Ready specs; no criteria the spec does not support</td>
+</tr>
+<tr>
+<td><code>playtest</code></td>
+<td>Records a session and turns it into spec changes</td>
+<td>After anyone plays a build</td>
+<td>Rule and scope changes rerun <code>analyze</code></td>
+</tr>
+</tbody>
+</table>
+<h2>8. Project layout and customising</h2>
+<p>The plugin holds the method; each project holds its own specs beside its code.</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AGENTS.md</code></td>
+<td>Rules for any agent, read first; <code>CLAUDE.md</code> points to it</td>
+</tr>
+<tr>
+<td><code>specs/constitution.md</code></td>
+<td>The game on one screen: pillars, platforms, boundaries, agent calls</td>
+</tr>
+<tr>
+<td><code>specs/STATE.md</code></td>
+<td>Where the work is; replaced, not appended</td>
+</tr>
+<tr>
+<td><code>specs/glossary.md</code></td>
+<td>Player words and code words with a special meaning</td>
+</tr>
+<tr>
+<td><code>specs/open-questions.md</code></td>
+<td>Every undecided place, with owner and blocking flag</td>
+</tr>
+<tr>
+<td><code>specs/sources.md</code></td>
+<td>Existing games only: old documents mapped to features</td>
+</tr>
+<tr>
+<td><code>specs/features/F001-name/</code></td>
+<td><code>spec.md</code>, <code>tasks.md</code>, <code>playtest-log.md</code>, dated analysis reports</td>
+</tr>
+<tr>
+<td><code>specs/briefs/B001-name.md</code></td>
+<td>Short-path changes</td>
+</tr>
+<tr>
+<td><code>specs/overrides/templates/</code></td>
+<td>The project's own versions of any template</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Three layers, highest first:</strong> project overrides in <code>specs/overrides/templates/</code>; the project layer (constitution, glossary, specs); the method (this plugin's principles and templates). Projects update the plugin for improvements and never edit it in place.</p>
+<h2>Where it comes from</h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What the method takes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gamefuel Studio's working method on a mobile game</td>
+<td>The AI-first loop, job stories with Gherkin criteria, Definitions of Ready and Done, the open questions register, spec conventions</td>
+</tr>
+<tr>
+<td><a href="https://github.com/github/spec-kit">GitHub Spec Kit</a></td>
+<td>The constitution, the clarify and analyse gates, a short and a full path, tasks handed to tickets, layered template overrides, greenfield and existing-system starts</td>
+</tr>
+<tr>
+<td><a href="https://github.com/bbak/proviso">Proviso</a> by Bruno Baketarić</td>
+<td>Guarded rules with <code>Otherwise</code>, undecided places that block building, who decides what, checking agents kept apart from the work; the production tier will draw on it further</td>
+</tr>
+</tbody>
+</table>
+</main>
+</body>
+</html>

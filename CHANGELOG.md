@@ -2,6 +2,12 @@
 
 Newest first. Version numbers follow semantic versioning. Bump `plugin.json` and `marketplace.json` together.
 
+## Repository (2026-11-10)
+
+- Landing page for GitHub Pages (`docs/index.html`), with HTML versions of the guides.
+- Method guide, worked example, cheat sheet (HTML, PDF, PNG) and method flow (SVG, PNG) included in `docs/`.
+- `tools/build_docs.py` rebuilds the guide pages from Markdown.
+
 ## dl-prototype 0.2.1 (2026-11-09)
 
 Fixes from the first `adopt` trial on a real project (about 130 documents, 170 open questions):

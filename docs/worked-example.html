@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worked example · Design-led SDD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f6f4f0;--ink:#23262b;--quiet:#4f535a;--red:#b63f25}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif;font-size:17px;line-height:1.65}
+a{color:var(--red)}
+header{border-bottom:2px solid var(--ink)}
+header div,main{max-width:860px;margin:0 auto;padding:16px 24px}
+header a{font-weight:700;text-decoration:none;color:var(--ink)}
+header span{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--quiet);margin-left:12px}
+main{padding-top:40px;padding-bottom:80px}
+h1{font-size:clamp(32px,5vw,46px);line-height:1.1;letter-spacing:-1px;margin:0 0 20px}
+h2{font-size:24px;letter-spacing:-.3px;margin:44px 0 12px;padding-top:16px;border-top:1.5px solid var(--ink)}
+code{font-family:'IBM Plex Mono',monospace;font-size:.9em;background:#ebe7df;padding:1px 4px;border-radius:3px}
+pre{background:#fff;border:1.5px solid var(--ink);border-radius:5px;padding:16px 18px;overflow-x:auto;line-height:1.55}
+pre code{background:none;padding:0;font-size:14px}
+table{width:100%;border-collapse:collapse;background:#fff;border:1.5px solid var(--ink);font-size:15px;margin:12px 0 20px;display:block;overflow-x:auto}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #d9d6cf;vertical-align:top}
+th{background:#efece6;font-weight:600}
+blockquote{margin:16px 0;padding:10px 18px;border-left:3px solid var(--red);background:#fff}
+img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
+</style>
+</head>
+<body>
+<header><div><a href="index.html">Design-led SDD</a><span>Worked example</span></div></header>
+<main>
+<h1>Design-led SDD: Worked example</h1>
+<p>One feature, F001 Daily tide gift, taken once round the whole prototype loop. Tidepool Keeper is a fictional cosy mobile game whose first design pillar is "Calm, never nagging". Every name, number and playtest result below is invented to show the method; none comes from a real project. The spec as it stood after step 2 is in <code>examples/tidepool-keeper</code>.</p>
+<h2>Step 1. Request</h2>
+<p>The product owner sends one line: <em>"Players should get something for coming back each day, but I don't want it to feel like a chore."</em></p>
+<p>The designer runs <code>/dl-prototype:spec</code>. The skill reads the constitution and glossary first, then checks the size: this is a new system other disciplines build on, so it takes the full path, not a brief. It checks the request against the pillars ("never nagging" rules out a streak that resets to zero) and creates <code>specs/features/F001-daily-tide-gift/spec.md</code>.</p>
+<p>It asks the designer one question at a time, for example:</p>
+<blockquote>
+<p><strong>When should a new gift become available?</strong> (a) 05:00 in the player's local time (recommended: late players are not cut off at midnight), (b) midnight local time, (c) 24 hours after the last claim.</p>
+</blockquote>
+<p>The designer picks (a). Questions only the owner can answer are not asked here; they become <code>?</code> places.</p>
+<h2>Step 2. Spec draft</h2>
+<p>The first draft is Status: Draft, with two <code>?</code> places the builders could not proceed without.</p>
+<p><strong>Intent.</strong> Give lapsed players a reason to open the game once a day without punishing them for missing one.</p>
+<p><strong>Scope.</strong> In: one gift per day, a visible countdown, a streak that never resets to zero. Out for now: player-chosen gifts, push notifications. Out for good: paying to claim a missed day.</p>
+<p><strong>Job stories</strong></p>
+<ol>
+<li>When I open the game for the first time today, I want to collect what the tide left, so I can feel the game noticed I came back.</li>
+<li>When I have already collected today's gift, I want to see when the next one arrives, so I can decide whether to come back tomorrow.</li>
+</ol>
+<p><strong>Rules</strong></p>
+<pre><code class="language-gherkin">Rule F001.claim-once: The gift can be claimed once per day
+  When      the player opens the beach screen
+  Provided  the player has not claimed since the last reset
+  Then      the gift is shown and can be claimed
+  Otherwise the beach shows the time until the next reset
+
+Rule F001.streak-floor: A missed day lowers the streak by one, never to zero
+  When      the player claims a gift
+  Provided  the player claimed in the previous day
+  Then      the streak goes up by one
+  Otherwise the streak goes down by one, to a minimum of ?
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Situation</th>
+<th>Provided</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>claim-once</td>
+<td>first open after the reset</td>
+<td>yes</td>
+<td>gift shown</td>
+</tr>
+<tr>
+<td>claim-once</td>
+<td>claimed 10 minutes ago</td>
+<td>no</td>
+<td>"Next tide in 13h 50m"</td>
+</tr>
+<tr>
+<td>streak-floor</td>
+<td>streak 4, claimed yesterday</td>
+<td>yes</td>
+<td>streak 5</td>
+</tr>
+<tr>
+<td>streak-floor</td>
+<td>streak 4, missed yesterday</td>
+<td>no</td>
+<td>streak 3</td>
+</tr>
+<tr>
+<td>streak-floor</td>
+<td>streak 1, missed three days</td>
+<td>no</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Parameters.</strong> <code>reset_time</code> = 05:00 player's local time. <code>streak_floor</code> = ?.</p>
+<p><strong>Risk.</strong> If the player changes the device clock, then they can claim more than once a day. ?</p>
+<h2>Step 3. Clarify</h2>
+<p><code>/dl-prototype:clarify</code> lists the two marked <code>?</code> places, then checks the gap list and finds one more nobody had marked: what happens if the player is offline when they open the beach.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question</th>
+<th>Owner</th>
+<th>Blocking</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OQ-F001-001</td>
+<td>Lowest the streak can fall to: (a) 1, (b) half the best streak, (c) the last milestone</td>
+<td>Game Designer</td>
+<td>Yes</td>
+<td>(a) 1. Simplest to read; revisit after playtest</td>
+</tr>
+<tr>
+<td>OQ-F001-002</td>
+<td>Clock changes: (a) server time decides the reset, (b) device time, risk accepted, (c) device time with a server check on claim</td>
+<td>Product Owner</td>
+<td>Yes</td>
+<td>(c). Works offline; cheaters gain at most one gift</td>
+</tr>
+<tr>
+<td>OQ-F001-003</td>
+<td>Offline on open: (a) show the gift, queue the claim, (b) grey the shell with "Tide is out"</td>
+<td>Game Designer</td>
+<td>Yes</td>
+<td>(b). Matches (c) above: a claim needs the server</td>
+</tr>
+</tbody>
+</table>
+<p>The designer answers 001 and 003 on the spot, one multiple-choice question each. 002 is a business question about cheating risk, so clarify drafts a note for the product owner instead of answering it:</p>
+<blockquote>
+<p>A player sets their phone clock forward a day and opens the game. Should they get a second gift? (a) No, the server decides; the game needs a connection to claim. (b) Yes, we accept it. (c) Only if the server agrees when they claim; offline players wait.</p>
+</blockquote>
+<p>The owner picks (c). Each answer is written into the spec, the <code>?</code> removed, and the register row moved to Resolved with who decided. No blocking question is left.</p>
+<h2>Step 4. Analyse</h2>
+<p><code>/dl-prototype:analyze</code> starts a fresh checking agent that reads only the spec, constitution, glossary and register: no code, tickets or chat. It returns three findings, written to <code>analysis-2026-11-09.md</code>.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Kind</th>
+<th>Where</th>
+<th>Finding</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Gap</td>
+<td>F001.claim-once</td>
+<td>Examples cover only one claim per day; nothing says what the reward is</td>
+<td>Designer adds a <code>gift_table</code> parameter and a third example</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Value inside rule</td>
+<td>F001.streak-floor</td>
+<td>"down by one" puts a tuning value in the rule text</td>
+<td>Moved to parameter <code>streak_penalty</code> = 1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>State missing</td>
+<td>States table</td>
+<td>Offline state from OQ-F001-003 is reachable but not listed</td>
+<td>Added "Offline: shell greyed, Tide is out"</td>
+</tr>
+</tbody>
+</table>
+<p>All three are resolved by edits, and the designer marks the spec <strong>Ready</strong>. The report also says what it could not judge: whether the claim moment feels like a small surprise. That is left to the playtest.</p>
+<h2>Step 5. Tasks</h2>
+<p><code>/dl-prototype:tasks</code> asks which slice to ticket and recommends the smallest playable one: claiming the gift, without the streak. It writes <code>tasks.md</code> with one story.</p>
+<p><strong>Story S1: Claim the daily tide gift.</strong> When I open the game for the first time today, I want to collect what the tide left, so I can feel the game noticed I came back. Implements F001.claim-once.</p>
+<pre><code class="language-gherkin">Scenario: Gift waiting after the reset
+  Given the player last claimed before today's 05:00 reset
+  When  they open the beach screen while online
+  Then  the shell glows and one tap claims the gift
+
+Scenario: Already claimed today (guard)
+  Given the player claimed at 09:00 today
+  When  they open the beach screen at 09:10
+  Then  the beach shows &quot;Next tide in 19h 50m&quot; and no shell
+
+Scenario: Offline on open (error)
+  Given the player has not claimed today
+  When  they open the beach screen with no connection
+  Then  the shell is greyed with &quot;Tide is out&quot; and cannot be tapped
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Discipline</th>
+<th>Task</th>
+<th>Depends on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1.T1</td>
+<td>Design</td>
+<td>Shell states: waiting, claimed, offline</td>
+<td></td>
+</tr>
+<tr>
+<td>S1.T2</td>
+<td>Art</td>
+<td>Shell sprite and glow, three states</td>
+<td>S1.T1</td>
+</tr>
+<tr>
+<td>S1.T3</td>
+<td>Engineering</td>
+<td>Claim with server check; countdown from <code>reset_time</code></td>
+<td>S1.T2</td>
+</tr>
+<tr>
+<td>S1.T4</td>
+<td>QA</td>
+<td>Pass or fail per scenario, on Android and iOS</td>
+<td>S1.T3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Proved by:</strong> the designer claims on a phone, changes the device clock, and confirms no second gift. <strong>Not ticketed:</strong> the streak, left for the next slice.</p>
+<h2>Step 6. Build and prove</h2>
+<p>The lead agent writes one brief per engineering task and hands each to a single helper, never two on the same files. The engineering brief, B001, ends with its proof step:</p>
+<blockquote>
+<p><strong>Prove it:</strong> run the build on the Android emulator, claim once, set the device clock forward a day, reopen online and offline. Report what the beach showed each time.</p>
+</blockquote>
+<p>The helper reports back in under ten lines: claim works, offline greys the shell, but the clock test shows a second gift. The server check was reading device time. That is a defect, not a spec gap, so it is fixed in the same brief and proved again.</p>
+<p>The helper also reports one real gap: the spec never says whether the countdown keeps ticking while the app is in the background. The lead raises <strong>OQ-F001-004</strong> instead of guessing, and the designer answers it (yes, it is computed from <code>reset_time</code> on resume).</p>
+<h2>Step 7. Playtest</h2>
+<p>Six internal players use the build for a week; the producer collects notes. <code>/dl-prototype:playtest</code> separates what players did from what they said, then writes Session 1 at the top of <code>playtest-log.md</code>.</p>
+<p><strong>What we saw (observations)</strong></p>
+<ul>
+<li>Four of six players claimed on the first open of each day.</li>
+<li>Two players opened the beach before 05:00 on most days and saw only a countdown.</li>
+<li>No player opened the beach twice in one day to check the countdown.</li>
+</ul>
+<p><strong>Hypotheses</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Hypothesis</th>
+<th>Result</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A gift on first open brings lapsed players back to the beach</td>
+<td>Unclear</td>
+<td>Too few lapsed days in one week</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Players use the countdown to plan their return</td>
+<td>Failed</td>
+<td>Nobody rechecked the countdown</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Proposed spec changes</strong>, each accepted by the designer one at a time:</p>
+<table>
+<thead>
+<tr>
+<th>Spec part</th>
+<th>Change</th>
+<th>Kind</th>
+<th>Accepted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parameter <code>reset_time</code></td>
+<td>05:00 to 04:00</td>
+<td>Tuning</td>
+<td>Yes, applied directly</td>
+</tr>
+<tr>
+<td>Job story 2</td>
+<td>Dropped; countdown kept as a small label only</td>
+<td>Scope</td>
+<td>Yes, <code>analyze</code> rerun</td>
+</tr>
+<tr>
+<td>Pillar "never nagging"</td>
+<td>One player wanted a reminder; challenges the pillar</td>
+<td>Pillar</td>
+<td>Flagged to the designer, no change</td>
+</tr>
+</tbody>
+</table>
+<p>The graduation check runs last. The feature gives out currency, but the last session still changed scope, so it stays in the prototype tier for now.</p>
+<h2>What changed in the spec</h2>
+<p>The spec's own changelog after one loop, newest first.</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Change</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7. Playtest</td>
+<td><code>reset_time</code> 05:00 to 04:00; job story 2 dropped</td>
+<td>Session 1: early openers, countdown unused</td>
+</tr>
+<tr>
+<td>6. Build</td>
+<td>Countdown computed from <code>reset_time</code> on resume</td>
+<td>OQ-F001-004, raised by the helper</td>
+</tr>
+<tr>
+<td>4. Analyse</td>
+<td><code>gift_table</code> and <code>streak_penalty</code> parameters; Offline state added</td>
+<td>Analysis findings 1 to 3</td>
+</tr>
+<tr>
+<td>3. Clarify</td>
+<td>Streak floor 1; server check on claim; offline greys the shell</td>
+<td>OQ-F001-001 to 003</td>
+</tr>
+<tr>
+<td>2. Spec</td>
+<td>First draft with two <code>?</code> places</td>
+<td>Owner's request</td>
+</tr>
+</tbody>
+</table>
+<p>Nothing in the spec changed without a row here, and no row lacks its reason.</p>
+</main>
+</body>
+</html>

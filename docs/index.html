@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design-led SDD: spec-driven development for game teams working with AI agents</title>
+<meta name="description" content="A spec-driven method for game teams working with AI agents. Design leads, code follows, and every playtest feeds back into the spec. Ships as a Claude Code plugin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f6f4f0;--ink:#23262b;--quiet:#4f535a;--red:#b63f25;--card:#ffffff;--rule:#23262b}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif;font-size:17px;line-height:1.6}
+a{color:var(--red)}a:hover{color:#8f2f1b}
+code,.mono{font-family:'IBM Plex Mono',monospace;font-size:.92em}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+header.top{border-bottom:2px solid var(--rule)}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:18px;padding-bottom:14px;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;letter-spacing:-.3px;text-decoration:none;color:var(--ink)}
+nav a{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--ink);text-decoration:none;margin-left:18px}
+nav a:hover{color:var(--red)}
+.hero{padding-top:72px;padding-bottom:40px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--quiet);margin:0 0 14px}
+h1{font-size:clamp(40px,6vw,72px);line-height:1.02;letter-spacing:-1.5px;margin:0 0 22px;max-width:14ch}
+.lead{font-size:clamp(19px,2vw,23px);max-width:40ch;margin:0 0 30px;color:var(--ink)}
+.lead em{font-style:normal;color:var(--red)}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 18px;border:1.5px solid var(--ink);border-radius:5px;text-decoration:none;font-weight:600;font-size:16px;color:var(--ink);background:var(--card)}
+.btn.primary{background:var(--ink);color:#fff}
+.btn:hover{border-color:var(--red);color:var(--red)}
+.btn.primary:hover{background:var(--red);border-color:var(--red);color:#fff}
+figure.flow{margin:24px 0 8px;border:1.5px solid var(--ink);border-radius:6px;background:var(--paper);overflow-x:auto}
+figure.flow img{display:block;width:100%;min-width:900px;height:auto}
+figcaption{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--quiet);margin:8px 2px 0}
+section{padding:56px 0;border-top:1.5px solid var(--rule)}
+h2{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;margin:0 0 6px}
+h2 .n{font-family:'IBM Plex Mono',monospace;color:var(--red);margin-right:10px}
+.sub{font-size:clamp(24px,3vw,32px);line-height:1.2;letter-spacing:-.4px;margin:0 0 28px;max-width:30ch;font-weight:600}
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{background:var(--card);border:1.5px solid var(--ink);border-radius:5px;padding:20px 22px}
+.card.dark{background:var(--ink);color:#fff}
+.card.dark .label{color:#d9d9d9}
+.card h3{margin:0 0 8px;font-size:20px;letter-spacing:-.2px}
+.card p{margin:0;color:inherit}
+.label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--quiet);margin:0 0 8px;text-transform:uppercase}
+.card ul{margin:10px 0 0;padding-left:18px}
+.card li{margin:2px 0}
+pre{background:var(--card);border:1.5px solid var(--ink);border-radius:5px;padding:18px 20px;overflow-x:auto;font-family:'IBM Plex Mono',monospace;font-size:15px;line-height:1.6;margin:0}
+pre .k{color:var(--red);font-weight:500}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1.5px solid var(--ink);font-size:15px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid #d9d6cf;vertical-align:top}
+th{font-weight:600;background:#efece6}
+tr:last-child td{border-bottom:0}
+td code{white-space:nowrap}
+.skills td:first-child{width:150px}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:28px;align-items:start}
+.note{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--red);margin:14px 0 0}
+.res a.card{text-decoration:none;color:var(--ink);display:block}
+.res a.card:hover{border-color:var(--red)}
+.res a.card:hover h3{color:var(--red)}
+.fmt{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--quiet);margin-top:10px}
+footer{border-top:2px solid var(--rule);padding:28px 0 48px;font-size:15px;color:var(--quiet)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer strong{color:var(--ink)}
+@media (max-width:640px){nav a{margin-left:0;margin-right:14px}.hero{padding-top:44px}section{padding:40px 0}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="wrap">
+<a class="brand" href="#">Design-led SDD</a>
+<nav>
+<a href="#starts">Starts</a>
+<a href="#loop">Loop</a>
+<a href="#skills">Skills</a>
+<a href="#install">Install</a>
+<a href="#read">Read</a>
+</nav>
+</div>
+</header>
+
+<main>
+<div class="wrap hero">
+<p class="eyebrow">dl-prototype 0.2.1 · a Claude Code plugin</p>
+<h1>Spec-driven development, led by design.</h1>
+<p class="lead">A method for game teams working with AI agents. Design leads, code follows, and <em>every playtest feeds back into the spec</em>, with the reasons kept.</p>
+<div class="ctas">
+<a class="btn primary" href="#install">Install the plugin</a>
+<a class="btn" href="method-guide.html">Read the method guide</a>
+<a class="btn" href="cheat-sheet.pdf">Cheat sheet (PDF)</a>
+</div>
+<figure class="flow">
+<img src="dl-prototype-flow.svg" alt="The dl-prototype method flow: request, specification, analyse, build and playtest, with decisions and findings flowing back to the people who own them.">
+</figure>
+<figcaption>Five stages, one skill each. Red lines carry decisions and findings back to the people who own them.</figcaption>
+</div>
+
+<section id="why">
+<div class="wrap">
+<h2><span class="n">01</span>Why</h2>
+<p class="sub">Most spec-driven tools assume software. Games find their design by being played.</p>
+<div class="grid g3">
+<div class="card"><p class="label">The problem</p><h3>Specs that never meet a build</h3><p>Write a spec, plan, build, done: that order breaks the first time a playtest shows the fun is somewhere else.</p></div>
+<div class="card"><p class="label">The fix</p><h3>The spec changes after every playtest</h3><p>What a build teaches goes back into the spec, so it stays the record of why the game is the way it is.</p></div>
+<div class="card"><p class="label">The rule</p><h3>Agents report; people decide</h3><p>Agents build fast and never guess. A gap the spec did not decide is marked <code>?</code> and goes to the person who owns it.</p></div>
+</div>
+</div>
+</section>
+
+<section id="starts">
+<div class="wrap">
+<h2><span class="n">02</span>Two starts</h2>
+<p class="sub">A brand new game, or one already in development or live.</p>
+<div class="grid g2">
+<div class="card"><p class="label">New game · <code>constitution</code></p><h3>Write down intent</h3><p>Pillars, platforms, boundaries and agent rules, built from questions asked one at a time. Feature specs come before building.</p></div>
+<div class="card dark"><p class="label">Existing game · <code>adopt</code></p><h3>Take stock, change nothing</h3><p>Drafts the constitution and glossary from your existing docs, imports open questions, and maps old documents to features.</p>
+<ul><li>Spec the change, not the game</li><li>The build beats the document</li></ul></div>
+</div>
+</div>
+</section>
+
+<section id="loop">
+<div class="wrap">
+<h2><span class="n">03</span>The loop</h2>
+<p class="sub">Steps 6 to 8 repeat until the feature is fun.</p>
+<div class="split">
+<table>
+<thead><tr><th>#</th><th>Step</th><th>What happens</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Spec first</td><td>Search the specs; raise real design decisions as open questions</td></tr>
+<tr><td>2</td><td>Choose the path</td><td>A brief for a small change, a feature spec for a new system</td></tr>
+<tr><td>3</td><td>Clarify</td><td>No feature leaves Draft with a blocking question</td></tr>
+<tr><td>4</td><td>Analyse</td><td>A separate agent checks the spec against everything else</td></tr>
+<tr><td>5</td><td>Break it down</td><td>Job stories with Gherkin acceptance criteria</td></tr>
+<tr><td>6</td><td>Build</td><td>On a branch, in slices that can be played</td></tr>
+<tr><td>7</td><td>Prove it</td><td>On the real target. "It compiled" is not proof</td></tr>
+<tr><td>8</td><td>Playtest</td><td>What the build teaches goes back into the spec</td></tr>
+<tr><td>9</td><td>Write it down</td><td>State, decisions, and every mistake as a new rule</td></tr>
+</tbody>
+</table>
+<div>
+<p class="label">Every rule has a guard</p>
+<pre>F001.claim-once: one gift a day
+<span>When</span>      the player opens the beach
+<span class="k">Provided</span>  not claimed since the reset
+<span>Then</span>      the gift can be claimed
+<span class="k">Otherwise</span> show the time to the next reset</pre>
+<p class="note">The Otherwise is where most game bugs live.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="skills">
+<div class="wrap">
+<h2><span class="n">04</span>Eight skills</h2>
+<p class="sub">Each runs one step in Claude Code and asks one question at a time.</p>
+<table class="skills">
+<thead><tr><th>Skill</th><th>Does</th><th>Gate it enforces</th></tr></thead>
+<tbody>
+<tr><td><code>constitution</code></td><td>Sets up a new game: constitution, AGENTS.md, open questions, glossary, state file</td><td>Every agent reads the constitution first</td></tr>
+<tr><td><code>adopt</code></td><td>Brings an existing game in from its own docs, code and registers</td><td>Changes nothing that already exists</td></tr>
+<tr><td><code>spec</code></td><td>Writes or revises a feature spec (full path)</td><td>Undecided places marked <code>?</code>, never guessed</td></tr>
+<tr><td><code>brief</code></td><td>One-page brief for a small change, optionally handed to a helper agent</td><td>Must end with proof on the target</td></tr>
+<tr><td><code>clarify</code></td><td>Works open questions down and finds unmarked gaps</td><td>No Ready while a blocking question is open</td></tr>
+<tr><td><code>analyze</code></td><td>Independent consistency check across specs, by a separate agent</td><td>No Ready with an unresolved finding</td></tr>
+<tr><td><code>tasks</code></td><td>Job stories, Gherkin criteria and tasks per discipline, ready for tickets</td><td>Only Ready specs</td></tr>
+<tr><td><code>playtest</code></td><td>Records a session and turns it into spec changes</td><td>Rule and scope changes rerun analyze</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="tiers">
+<div class="wrap">
+<h2><span class="n">05</span>Two tiers</h2>
+<p class="sub">Light while you find the fun. Strict once a wrong rule costs money or trust.</p>
+<div class="grid g2">
+<div class="card"><p class="label">Available · <code>dl-prototype</code></p><h3>Prototype tier</h3><p>Feature folders, guarded rules where they matter, specs revised after each playtest. Low overhead.</p></div>
+<div class="card"><p class="label">Planned · <code>dl-production</code></p><h3>Production tier</h3><p>Every change an amendment checked against a baseline, with independent testing and checking agents. For economy, rewards, purchases and anything live.</p></div>
+</div>
+</div>
+</section>
+
+<section id="install">
+<div class="wrap">
+<h2><span class="n">06</span>Install</h2>
+<p class="sub">In Claude Code, add the marketplace and install the plugin.</p>
+<pre>/plugin marketplace add <span class="k">&lt;this repository&gt;</span>
+/plugin install dl-prototype@design-led-sdd
+
+<span># new game</span>
+/dl-prototype:constitution
+<span># existing game</span>
+/dl-prototype:adopt</pre>
+<p class="note">Or just describe what you want ("spec out a daily gift", "here are our playtest notes"): the skills load by themselves.</p>
+</div>
+</section>
+
+<section id="read">
+<div class="wrap">
+<h2><span class="n">07</span>Read</h2>
+<p class="sub">Everything you need to use, teach or pitch the method.</p>
+<div class="grid g4 res">
+<a class="card" href="method-guide.html"><p class="label">Guide</p><h3>Method guide</h3><p>The whole method in eight sections.</p><p class="fmt">HTML · <span>Markdown in the repo</span></p></a>
+<a class="card" href="worked-example.html"><p class="label">Example</p><h3>Worked example</h3><p>One feature taken once round the loop, from request to playtest.</p><p class="fmt">HTML · Markdown in the repo</p></a>
+<a class="card" href="cheat-sheet.pdf"><p class="label">Print</p><h3>Cheat sheet</h3><p>One A4 page for the desk: skills, rule format, gates.</p><p class="fmt">PDF · <span>also as HTML and PNG</span></p></a>
+<a class="card" href="dl-prototype-flow.svg"><p class="label">Diagram</p><h3>Method flow</h3><p>The five stages and who owns each decision.</p><p class="fmt">SVG · PNG</p></a>
+</div>
+</div>
+</section>
+
+<section id="sources">
+<div class="wrap">
+<h2><span class="n">08</span>Where it comes from</h2>
+<p class="sub">A working studio method, plus the best ideas from two open projects.</p>
+<div class="grid g3">
+<div class="card"><p class="label">Practice</p><h3>A studio's working method</h3><p>The AI-first loop, job stories with Gherkin, Definitions of Ready and Done, and the open questions register, from a mobile game in production.</p></div>
+<div class="card"><p class="label">Borrowed</p><h3><a href="https://github.com/github/spec-kit">GitHub Spec Kit</a></h3><p>The constitution, the clarify and analyse gates, short and full paths, tasks to tickets, layered overrides.</p></div>
+<div class="card"><p class="label">Borrowed</p><h3><a href="https://github.com/bbak/proviso">Proviso</a></h3><p>By Bruno Baketarić. Guarded rules, undecided places that block building, and checking agents kept apart from the work.</p></div>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap">
+<span><strong>Design-led SDD</strong> by Rob Sandberg</span>
+<span class="mono">All rights reserved until a licence is added</span>
+</div>
+</footer>
+</body>
+</html>
