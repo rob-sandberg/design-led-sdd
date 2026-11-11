@@ -26,6 +26,8 @@ th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #d9d6cf;vertical-
 th{background:#efece6;font-weight:600}
 blockquote{margin:16px 0;padding:10px 18px;border-left:3px solid var(--red);background:#fff}
 img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
+@media print{header{display:none}main{padding:0;max-width:none}h2{break-after:avoid}table,pre,img{break-inside:avoid}}
+@page{size:A4;margin:16mm 14mm}
 </style>
 </head>
 <body>
@@ -37,6 +39,8 @@ img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
 <p><img alt="The dl-prototype method flow" src="dl-prototype-flow.png" /></p>
 <h2>1. The loop</h2>
 <p>The designer directs and decides; agents do most of the hands-on work, and every build feeds back into the spec.</p>
+<p><img alt="The dl-prototype loop" src="dl-prototype-loop.png" /></p>
+<p>A feature spec runs the top row before anything is built; a brief takes the dashed short path. A playtest that changes a rule or scope sends the spec back through Clarify.</p>
 <p><strong>Three rules</strong></p>
 <ol>
 <li><strong>Give the agent hands on the real project:</strong> editor, builds, logs, data. An agent that can only edit files is guessing.</li>

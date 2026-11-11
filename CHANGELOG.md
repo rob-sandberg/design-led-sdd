@@ -2,6 +2,13 @@
 
 Newest first. Version numbers follow semantic versioning. Bump `plugin.json` and `marketplace.json` together.
 
+## Repository (2026-11-11)
+
+- Loop diagram (`docs/dl-prototype-loop.svg`, PNG), now in the method guide.
+- Design notes: the decisions behind the method, what was taken from Spec Kit and Proviso, the adopt trial lessons.
+- PDFs of the method guide, worked example and design notes.
+- Diagram scripts in `tools/`.
+
 ## Repository (2026-11-10)
 
 - Landing page for GitHub Pages (`docs/index.html`), with HTML versions of the guides.

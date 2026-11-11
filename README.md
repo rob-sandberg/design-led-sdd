@@ -17,8 +17,11 @@ Most spec-driven tools assume software: write a spec, plan, build, done. Games f
 | --- | --- |
 | [Method guide](docs/method-guide.md) | The whole method in eight sections |
 | [Worked example](docs/worked-example.md) | One feature taken once round the loop, from request to playtest |
+| [Design notes](docs/design-notes.md) | What was taken from Spec Kit and Proviso, what was left, and why |
 | [Cheat sheet](docs/cheat-sheet.pdf) | One A4 page: skills, rule format, gates ([HTML](docs/cheat-sheet.html), [PNG](docs/cheat-sheet.png)) |
 | [Method flow](docs/dl-prototype-flow.svg) | The diagram above, as an editable SVG |
+| [The loop](docs/dl-prototype-loop.svg) | Two starts, two paths and the playtest feedback line |
+| PDFs | [Method guide](docs/method-guide.pdf), [worked example](docs/worked-example.pdf), [design notes](docs/design-notes.pdf) |
 | [Landing page](docs/index.html) | The project site, published with GitHub Pages from `docs/` |
 
 ## Install
@@ -83,10 +86,11 @@ plugins/dl-prototype/
 docs/                               landing page, guides, cheat sheet, diagram
 examples/tidepool-keeper/           a small fictional game, to show the format
 tools/build_docs.py                 rebuilds docs/*.html from the Markdown
+tools/make_flow.py, make_loop.py    regenerate the two diagrams as SVG
 CHANGELOG.md
 ```
 
-After editing `docs/method-guide.md` or `docs/worked-example.md`, run `python3 tools/build_docs.py` to refresh their HTML pages.
+After editing a guide's Markdown in `docs/`, run `python3 tools/build_docs.py` to refresh its HTML page. The PDFs are printed from those HTML pages.
 
 ## Where it comes from
 

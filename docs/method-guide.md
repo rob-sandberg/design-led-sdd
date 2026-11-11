@@ -10,6 +10,10 @@ Sections 1 to 6 describe the method, section 7 the skills that run it, and secti
 
 The designer directs and decides; agents do most of the hands-on work, and every build feeds back into the spec.
 
+![The dl-prototype loop](dl-prototype-loop.png)
+
+A feature spec runs the top row before anything is built; a brief takes the dashed short path. A playtest that changes a rule or scope sends the spec back through Clarify.
+
 **Three rules**
 
 1. **Give the agent hands on the real project:** editor, builds, logs, data. An agent that can only edit files is guessing.

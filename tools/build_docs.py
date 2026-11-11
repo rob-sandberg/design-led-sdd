@@ -13,6 +13,7 @@ DOCS = ROOT / "docs"
 PAGES = [
     ("method-guide.md", "method-guide.html", "Method guide"),
     ("worked-example.md", "worked-example.html", "Worked example"),
+    ("design-notes.md", "design-notes.html", "Design notes"),
 ]
 
 TEMPLATE = """<!DOCTYPE html>
@@ -43,6 +44,8 @@ th,td{{text-align:left;padding:8px 12px;border-bottom:1px solid #d9d6cf;vertical
 th{{background:#efece6;font-weight:600}}
 blockquote{{margin:16px 0;padding:10px 18px;border-left:3px solid var(--red);background:#fff}}
 img{{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}}
+@media print{{header{{display:none}}main{{padding:0;max-width:none}}h2{{break-after:avoid}}table,pre,img{{break-inside:avoid}}}}
+@page{{size:A4;margin:16mm 14mm}}
 </style>
 </head>
 <body>
@@ -62,6 +65,7 @@ def build():
         text = re.sub(r"\[([^\]]+)\]\(\.\./[^)]+\)", r"\1", text)
         text = text.replace("](method-guide.md)", "](method-guide.html)")
         text = text.replace("](worked-example.md)", "](worked-example.html)")
+        text = text.replace("](design-notes.md)", "](design-notes.html)")
         body = markdown.markdown(text, extensions=["tables", "fenced_code"])
         (DOCS / out).write_text(TEMPLATE.format(title=title, body=body), encoding="utf-8")
         print("built", out)

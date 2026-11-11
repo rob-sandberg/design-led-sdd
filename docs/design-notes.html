@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design notes · Design-led SDD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f6f4f0;--ink:#23262b;--quiet:#4f535a;--red:#b63f25}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif;font-size:17px;line-height:1.65}
+a{color:var(--red)}
+header{border-bottom:2px solid var(--ink)}
+header div,main{max-width:860px;margin:0 auto;padding:16px 24px}
+header a{font-weight:700;text-decoration:none;color:var(--ink)}
+header span{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--quiet);margin-left:12px}
+main{padding-top:40px;padding-bottom:80px}
+h1{font-size:clamp(32px,5vw,46px);line-height:1.1;letter-spacing:-1px;margin:0 0 20px}
+h2{font-size:24px;letter-spacing:-.3px;margin:44px 0 12px;padding-top:16px;border-top:1.5px solid var(--ink)}
+code{font-family:'IBM Plex Mono',monospace;font-size:.9em;background:#ebe7df;padding:1px 4px;border-radius:3px}
+pre{background:#fff;border:1.5px solid var(--ink);border-radius:5px;padding:16px 18px;overflow-x:auto;line-height:1.55}
+pre code{background:none;padding:0;font-size:14px}
+table{width:100%;border-collapse:collapse;background:#fff;border:1.5px solid var(--ink);font-size:15px;margin:12px 0 20px;display:block;overflow-x:auto}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #d9d6cf;vertical-align:top}
+th{background:#efece6;font-weight:600}
+blockquote{margin:16px 0;padding:10px 18px;border-left:3px solid var(--red);background:#fff}
+img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
+@media print{header{display:none}main{padding:0;max-width:none}h2{break-after:avoid}table,pre,img{break-inside:avoid}}
+@page{size:A4;margin:16mm 14mm}
+</style>
+</head>
+<body>
+<header><div><a href="index.html">Design-led SDD</a><span>Design notes</span></div></header>
+<main>
+<h1>Design notes</h1>
+<p>Why the method is shaped the way it is: the decisions made while building <code>dl-prototype</code>, what was taken from other spec-driven systems and what was left behind, and what is still open. Newest decisions are at the end of each section; open items are at the bottom.</p>
+<h2>1. GitHub Spec Kit</h2>
+<p><a href="https://github.com/github/spec-kit">Spec Kit</a> is GitHub's open-source toolkit for spec-driven development. It runs a chain of commands (constitution, specify, clarify, plan, analyze, tasks, implement) and writes plain Markdown into the repo. It installs into Claude Code as native skills.</p>
+<p><strong>Assessment for games.</strong> It runs inside Claude Code without trouble, but it was built for software features: its templates expect data models and API contracts, its flow runs one way from specify to implement, and it gives little help for changing a spec mid-build. Reviewers report a large volume of documents to review, and specs only govern by convention: nothing checks the build against them.</p>
+<p><strong>Taken</strong></p>
+<table>
+<thead>
+<tr>
+<th>Idea</th>
+<th>Where it lives in this method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The constitution as one file every agent reads first</td>
+<td><code>templates/constitution.md</code>, <code>constitution</code> and <code>adopt</code> skills</td>
+</tr>
+<tr>
+<td>Clarify as a gate</td>
+<td><code>clarify</code> skill; no Ready with a blocking open question</td>
+</tr>
+<tr>
+<td>Analyse as a cross-artifact consistency check</td>
+<td><code>analyze</code> skill, run as a separate agent</td>
+</tr>
+<tr>
+<td>A short path and a full path</td>
+<td><code>brief</code> versus <code>spec</code></td>
+</tr>
+<tr>
+<td>Tasks handed to tickets</td>
+<td><code>tasks</code> skill, in the job story and Gherkin format</td>
+</tr>
+<tr>
+<td>Layered overrides (project over extension over core)</td>
+<td><code>specs/overrides/templates/</code> beats the plugin's templates</td>
+</tr>
+<tr>
+<td>Portability across agents</td>
+<td>Core rules in <code>AGENTS.md</code>, with <code>CLAUDE.md</code> pointing to it</td>
+</tr>
+<tr>
+<td>Separate starts for new and existing projects</td>
+<td><code>constitution</code> and <code>adopt</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Left behind:</strong> the Python command-line install; software templates (data model, contracts, research); the one-way specify-plan-tasks order; autonomous implementation.</p>
+<h2>2. Proviso</h2>
+<p><a href="https://github.com/bbak/proviso">Proviso</a>, by Bruno Baketarić, keeps one spec tree true across many changes. Every change is an amendment on a branch; a command-line tool diffs it against a baseline and lists what it might affect; separate agents build, test and check it without seeing each other's work. Its own documentation says it trades speed for coherence and is overhead for prototypes. Licensed Apache 2.0.</p>
+<p><strong>Taken into the prototype tier now</strong></p>
+<table>
+<thead>
+<tr>
+<th>Idea</th>
+<th>Where it lives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Guarded rules: When, Provided, Then, Otherwise, with examples on both sides</td>
+<td><code>principles/04-writing-specs.md</code>, feature spec template</td>
+</tr>
+<tr>
+<td><code>?</code> marks an undecided place, and nothing with a blocking <code>?</code> is built</td>
+<td>Open questions convention, Ready gate</td>
+</tr>
+<tr>
+<td>Who decides what; agents decide nothing and report gaps</td>
+<td><code>principles/02-who-decides.md</code></td>
+</tr>
+<tr>
+<td>A checking agent that sees no code, tickets or playtests</td>
+<td><code>analyze</code> skill</td>
+</tr>
+<tr>
+<td>A plain summary for the business owner, with open questions as concrete cases</td>
+<td><code>spec</code> and <code>clarify</code> skills</td>
+</tr>
+<tr>
+<td>An amendment note saying what is deliberately left out</td>
+<td>"Not in this brief", "Not ticketed"</td>
+</tr>
+<tr>
+<td>A design boundary: what the game relies on but does not build</td>
+<td>Constitution, "Platforms and boundary"</td>
+</tr>
+<tr>
+<td>Kit owned by the tool, notes owned by the project</td>
+<td>Plugin versus <code>specs/</code>, with overrides</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Saved for the production tier:</strong> a baseline and manifest with mechanical diff and impact lists; context packs that give each agent only what it needs; independent testing and coding agents in separate worktrees; mutation checks on the tests; a request skill for non-technical clients that runs in their own assistant; verification in CI.</p>
+<p><strong>Where it does not fit games:</strong> feel and visual work cannot be written as guarded rules; black-box testing through contracts suits a back end far better than a Unity UI; and a spec built to stay stable fights a design still being discovered.</p>
+<h2>3. Two tiers</h2>
+<p>Decision: one method, two plugins. <code>dl-prototype</code> is light and revises specs after every playtest. <code>dl-production</code> (planned, modelled on Proviso) keeps rules true across many changes. A feature graduates when a wrong rule costs money or trust, when other features keep breaking as it changes, when it is live and changed by people who did not design it, or when playtests only change its tuning values. Feel and visual work never graduates.</p>
+<p>To keep graduation cheap, the prototype tier already uses guarded rules, stable rule IDs and a Parameters table.</p>
+<h2>4. Team model</h2>
+<p>Decision: the default is one lead agent with at most two helper agents, each on one briefed task and never on the same files. It is the lighter of two models tried in practice. A named team of specialist agents behind an orchestrator also works, but it costs more to set up and tends to let agents make design calls. Teams can add specialists on top; the "who decides" rules still apply.</p>
+<h2>5. Two starts and the adopt trial</h2>
+<p>Decision: a new game starts with <code>constitution</code>; an existing game starts with <code>adopt</code>, which reads before it asks and changes nothing that exists. On an existing game, a feature gets a spec only when it is next changed (spec the change, not the game), and when a document and the build disagree, the build wins and the disagreement becomes an open question.</p>
+<p><code>adopt</code> was trialled on a real mobile game in production with about 130 design documents and an open questions register of around 270 rows. The trial changed the skill in five ways:</p>
+<ol>
+<li><strong>Ask which register is master before importing.</strong> Two live open-question registers drift apart within days.</li>
+<li><strong>Keep existing question IDs</strong> and group them by screen or area when the old register has no sections.</li>
+<li><strong>Triage large imports first.</strong> 170 open questions with no Blocking flag is more than a team can act on.</li>
+<li><strong>Ask for code or build access up front.</strong> Without it, every document's trust stays Unknown.</li>
+<li><strong>Look for setup rules that block the method,</strong> such as a rule forbidding cross-document consistency checks, agents that make design decisions, or ticket projects named differently in different documents.</li>
+</ol>
+<h2>Open</h2>
+<ul>
+<li><strong>Licence and ownership.</strong> The repository is private and all rights are reserved until a licence is chosen and ownership (personal or studio) is settled.</li>
+<li><strong>The production tier.</strong> Not yet designed beyond the list in section 2.</li>
+<li><strong>The method flow diagram</strong> shows the loop but not the two starts; the loop diagram does.</li>
+<li><strong>Copies on claude.ai.</strong> The method guide, worked example and cheat sheet also exist as claude.ai artifacts. This repository is the source of truth; the artifacts may lag behind it.</li>
+</ul>
+</main>
+</body>
+</html>
