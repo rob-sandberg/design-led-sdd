@@ -8,20 +8,21 @@ Most spec-driven tools assume software: write a spec, plan, build, done. Games f
 
 | Plugin | Tier | Status |
 | --- | --- | --- |
-| `dl-prototype` | Prototype: light specs for finding the fun | 0.2.1 |
+| `dl-prototype` | Prototype: light specs for finding the fun | 0.3.0 |
 | `dl-production` | Production: rules kept true across many changes | Planned |
 
 ## Read
 
 | | |
 | --- | --- |
-| [Method guide](docs/method-guide.md) | The whole method in eight sections |
-| [Worked example](docs/worked-example.md) | One feature taken once round the loop, from request to playtest |
+| [Method guide](docs/method-guide.md) | The whole method in nine sections |
+| [Worked example](docs/worked-example.md) | One feature taken once round the loop, from request to playtest, with [every step as files](examples/tidepool-keeper/README.md) |
 | [Design notes](docs/design-notes.md) | What was taken from Spec Kit and Proviso, what was left, and why |
 | [Cheat sheet](docs/cheat-sheet.pdf) | One A4 page: skills, rule format, gates ([HTML](docs/cheat-sheet.html), [PNG](docs/cheat-sheet.png)) |
 | [Method flow](docs/dl-prototype-flow.svg) | The diagram above, as an editable SVG |
 | [The loop](docs/dl-prototype-loop.svg) | Two starts, two paths and the playtest feedback line |
 | PDFs | [Method guide](docs/method-guide.pdf), [worked example](docs/worked-example.pdf), [design notes](docs/design-notes.pdf) |
+| [Smoke test](docs/smoke-test.md) | Ten checks to run in a live Claude Code session before relying on 0.3 |
 | [Landing page](docs/index.html) | The project site, published with GitHub Pages from `docs/` |
 
 ## Install
@@ -43,7 +44,7 @@ To try it without installing: `claude --plugin-dir ./plugins/dl-prototype`
 | First job | Write down intent: pillars, platforms, boundaries, agent rules | Take stock of existing docs, code and registers; change none of them |
 | Feature specs | Written before building | Written when a feature is next changed: spec the change, not the game |
 
-## Eight skills
+## Eight skills, two agents, five scripts
 
 Each skill runs one step in Claude Code and asks one question at a time, as multiple choice. You can also just describe what you want; the skills load by themselves.
 
@@ -53,10 +54,20 @@ Each skill runs one step in Claude Code and asks one question at a time, as mult
 | `adopt` | Existing game: drafts the project layer from existing docs, imports open questions, maps old docs to features |
 | `spec` | Full path: writes or revises a feature spec |
 | `brief` | Short path: one-page brief for a small change, optionally handed to a helper agent |
-| `clarify` | Works open questions down until a spec can be marked Ready |
-| `analyze` | Independent consistency check across specs, by a separate agent; read-only |
-| `tasks` | Job stories, Gherkin acceptance criteria and per-discipline tasks, ready for tickets |
-| `playtest` | Records a playtest and turns it into spec changes |
+| `clarify` | Works open questions down, then asks the designer to approve the spec |
+| `analyze` | Independent check of one spec revision, by the `spec-analyst` agent; read-only |
+| `tasks` | Stories, scenarios tied to rule rows, tasks, a test plan and a test room; each story approved on its own |
+| `playtest` | Records a playtest and turns it into spec changes: tuning can keep the approval, a rule change lapses it |
+
+Agents: `spec-analyst` (reviews only what it is given) and `build-checker` (maps rules to code and tests). Scripts in `scripts/` do the checks that must not depend on a model: `ready_check.py`, `spec_rev.py`, `spec_diff.py`, `register.py`, `pointer.py`. They need Python 3 and nothing else.
+
+## Ready, twice
+
+A spec is approved once its open questions are closed and an independent analysis of its current revision has no unresolved blocking finding. Then each story is approved on its own. Any rule change lapses the approval; a tuning change can carry it over. `ready_check.py` checks all of this and says why in plain lines.
+
+## Shift-left QA
+
+Every rule comes with examples, so a tester can start on any feature without a briefing. QA joins at Clarify, the test plan has one case per example row, and a greybox test room is approved before the build.
 
 ## What it puts in your project
 
@@ -69,7 +80,8 @@ specs/
   glossary.md                 words with a special meaning
   open-questions.md           every undecided place, with an owner
   sources.md                  existing games: old documents mapped to features
-  features/F001-name/         spec.md, tasks.md, playtest-log.md, analysis reports
+  features/F001-name/         spec.md, analysis reports, tasks.md, test-plan.md,
+                              test-room.md, summary.md, playtest-log.md
   briefs/B001-name.md         short-path changes
   overrides/templates/        your versions of any template; these win
 ```
@@ -83,12 +95,18 @@ plugins/dl-prototype/
   principles/                       the method, for people
   templates/                        the shapes the skills fill in
   skills/                           the procedures, for agents
+  agents/                           spec-analyst, build-checker
+  scripts/                          Ready check, revisions, diffs, register
 docs/                               landing page, guides, cheat sheet, diagram
-examples/tidepool-keeper/           a small fictional game, to show the format
+examples/tidepool-keeper/           a fictional game, one checkpoint per step
+tests/                              tests for the scripts and the checkpoints
 tools/build_docs.py                 rebuilds docs/*.html from the Markdown
 tools/make_flow.py, make_loop.py    regenerate the two diagrams as SVG
+tools/make_fixture.py               rebuilds the Tidepool Keeper checkpoints
 CHANGELOG.md
 ```
+
+Run the tests with `python3 -m unittest discover -s tests`.
 
 After editing a guide's Markdown in `docs/`, run `python3 tools/build_docs.py` to refresh its HTML page. The PDFs are printed from those HTML pages.
 

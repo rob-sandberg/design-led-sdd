@@ -9,7 +9,7 @@ The method has two entry points, because the truth lives in different places.
 | Skill | `constitution` | `adopt` |
 | Constitution | Built from questions | Drafted from existing docs and code, then confirmed |
 | Glossary | Invented as you go | Pulled from code and UI; mismatches become open questions |
-| Open questions | Start empty | Imported from existing registers, plus contradictions between docs |
+| Open questions | Start empty | Imported from an existing register (merged by ID, never overwritten) or read from it where it stays the master, plus contradictions between docs |
 | Feature specs | Written before building | Written when a feature is next touched |
 | A spec's "Today" section | Usually "Nothing" | The most important section: what the build does now |
 | Biggest risk | Specs that never meet a build | Specs that describe the game as documented, not as built |

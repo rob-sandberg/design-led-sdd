@@ -1,6 +1,6 @@
 # F[NNN]: [Feature name]
 
-- Status: Draft | Ready | In build | In playtest | Settled | Graduated
+- Status: Draft | Ready | Building | In playtest | Settled | Graduated (Ready only when the Approval section records it)
 - Owner: [role title]
 - Last updated: YYYY-MM-DD
 - Links: [design file] · [prototype] · [tickets]
@@ -88,10 +88,21 @@ What we expect to learn by playing it. Each one is checked in `playtest-log.md`.
 
 ## Open questions
 
-See `specs/open-questions.md`, rows `OQ-F[NNN]-*`. Blocking questions keep this spec in Draft.
+In the register the constitution names (default `specs/open-questions.md`), rows `OQ-F[NNN]-*`. A `?` in this spec cites its question ID on the same line. Blocking questions keep this spec in Draft.
+
+## Approval
+
+Written only on the designer's explicit yes, after the Ready check passes (`scripts/ready_check.py <this folder> --stage approve`). A rule or scope change makes it lapse.
+
+- Ready: No
+- Approved by:
+- Date:
+- Revision:
+- Commit:
+- Analysis:
 
 ## Changelog
 
 | Date | Change | By |
 | --- | --- | --- |
-| YYYY-MM-DD | First draft | [role] |
+| YYYY-MM-DD | First draft | [role decided], applied by [role] |

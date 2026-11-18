@@ -2,6 +2,38 @@
 
 Newest first. Version numbers follow semantic versioning. Bump `plugin.json` and `marketplace.json` together.
 
+## dl-prototype 0.3.0 (2026-11-18)
+
+Lessons from a week on a real Unity project, and an outside review. The two key behaviours are now scripts with tests.
+
+**Ready, twice**
+
+- Every spec has a revision (`rev-` plus 12 hex characters) from its design content; status, dates, approval and changelog are left out.
+- `scripts/ready_check.py` checks a spec at three stages: approve, ticket and story. It explains each failure in a plain line. Exit 0 pass, 1 fail.
+- Analysis reports name the revision and context they read, and are numbered `analysis-YYYY-MM-DD-NN.md`. A report on an older revision no longer counts. Blocking findings are dismissed with a reason and who decided, or fixed and rechecked.
+- The designer approves the spec, then each story. The spec template has an Approval section; agents fill it only after an explicit yes.
+- `scripts/spec_diff.py` says whether a change is tuning (Parameters only) or a rule change, and lists the stories and test cases it touches. A rule change lapses the approval; a tuning change can carry it over.
+
+**Open questions**
+
+- One register, named in the constitution (default `specs/open-questions.md`), local or legacy mode. New principle `07-open-questions.md`.
+- `scripts/register.py` finds the register, gives the next ID, and merges imports by ID without overwriting.
+- A Proposal column; Blocking can be `?` until triaged, and the Ready check treats that as blocking.
+
+**Shift-left QA**
+
+- QA is a role in `02-who-decides.md` and joins at Clarify; testability is on the analysis checklist.
+- New templates: `test-plan.md` (one case per example row), `test-room.md` (approved before the build), `summary.md` (for readers outside the team).
+- New agents: `spec-analyst` (Read only, reviews pasted inputs) and `build-checker` (maps rules to code and tests, changes nothing).
+
+**Other**
+
+- Constitution: a Roles table maps method roles to the team's titles; agents may make process and housekeeping calls that change no game rule, listed in one line.
+- Changelog rows say who decided and who applied the change.
+- `scripts/pointer.py` keeps exactly one `@AGENTS.md` line in `CLAUDE.md`; `adopt` keeps an existing AGENTS.md and is safe to rerun.
+- Tidepool Keeper is now ten checkpoints, one per step, built by `tools/make_fixture.py`; the worked example follows them.
+- Tests: `python3 -m unittest discover -s tests`.
+
 ## Repository (2026-11-11)
 
 - Loop diagram (`docs/dl-prototype-loop.svg`, PNG), now in the method guide.

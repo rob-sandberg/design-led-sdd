@@ -9,19 +9,19 @@ The short path. One page, one helper, one change, proved on the target.
 
 ## Where things come from
 
-This plugin's folders sit two levels up from this skill's folder: `principles/` and `templates/`. For any template, use `specs/overrides/templates/<file>` in the project if it exists, otherwise the plugin's `templates/<file>`.
+This plugin's folders sit two levels up from this skill's folder: `principles/`, `templates/` and `scripts/`. Run scripts with `python3 <plugin>/scripts/<name>.py` from the project root. For any template, use `specs/overrides/templates/<file>` in the project if it exists, otherwise the plugin's `templates/<file>`.
 
 ## Steps
 
 1. Read `specs/constitution.md` and `specs/STATE.md`.
 2. Find the feature spec this change touches, if any, and read the rules it affects.
 3. Check the size. If the change needs new rules, touches more than one feature, or another discipline builds on it, suggest the `spec` skill instead.
-4. If the change contradicts a spec rule, stop: either the spec changes first (offer to revise it) or the brief changes.
+4. If the change contradicts a spec rule, stop: either the spec changes first (offer to revise it, which ends its approval if the change is to a rule) or the brief changes. A brief that changes only a parameter of an approved spec follows the tuning path in `principles/03-ready-and-done.md`.
 5. Write `specs/briefs/B<NNN>-<short-name>.md` from `brief.md`. Context must be complete: a fresh helper reads only this file and the files it names.
 6. Make the last step "Prove it", naming the target from the constitution.
 7. Fill "Not in this brief" with anything adjacent the helper might be tempted to do.
 8. Ask whether to start a helper agent on it now. If yes, start one helper with the brief as its whole instruction, and stop it when it reports.
-9. When the helper reports, check its proof, update `specs/STATE.md`, and if it found a gap in a spec, raise an open question.
+9. When the helper reports, check its proof, update `specs/STATE.md`, and if it found a gap in a spec, raise an open question in the register the constitution names (`register.py where`; `register.py next-id` for the ID).
 
 ## Keep it to a page
 

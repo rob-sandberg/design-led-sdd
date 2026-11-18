@@ -36,11 +36,13 @@ Plain Given/When/Then is fine for acceptance criteria on tickets. Inside feature
 
 ## Undecided places
 
-Mark anything not yet decided with `?` inline, and add a matching row to `specs/open-questions.md`. A spec may hold `?` while it is Draft. Nothing with a blocking `?` is built.
+Mark anything not yet decided with `?` inline, cite its question ID on the same line (`? (OQ-F003-002)`), and add a matching row to the register the constitution names (`07-open-questions.md`). A spec may hold `?` while it is Draft. Nothing with a blocking `?` is built, and the Ready check fails on any `?` whose question is blocking or not yet triaged.
+
+Write example times against parameters ("exactly at `reset_time`", "one minute before `reset_time`"), not as clock times. Then tuning the parameter leaves the rows true, and the change stays a tuning change.
 
 ## Conventions
 
-- **Open question IDs:** `OQ-<feature ID>-NNN` (for example `OQ-F003-002`), or `OQ-NNN` for project-wide questions. Columns: ID, Question, Owner, Blocking, Status. Status is `Open`, `Resolved: <answer>` or `Deferred`.
+- **Open question IDs:** `OQ-<feature ID>-NNN` (for example `OQ-F003-002`), or `OQ-NNN` for project-wide questions. Columns and sections: see `templates/open-questions.md`. Every question carries a Proposal, so the owner can answer with one word.
 - **Changelog rows:** `YYYY-MM-DD | what changed | who`. Newest row at the top.
 - **Risks:** "If [condition], then [consequence]." in sentence case.
 - **Numbering:** within a prefix group, take the highest number and add one. Numbers 90 to 99 are reserved for permanent bottom items (indexes, registers).

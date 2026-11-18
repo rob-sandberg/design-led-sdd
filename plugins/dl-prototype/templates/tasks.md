@@ -1,11 +1,15 @@
 # F[NNN]: [Feature name], tasks
 
-- Built from: `spec.md` as of YYYY-MM-DD
+- Built from: spec revision rev-xxxxxxxxxxxx, approved by [role] on YYYY-MM-DD (commit [hash])
 - Ticket system: [Jira key / GitHub Issues / none]
 
 Each story is ready to paste into a ticket. Tasks sit under their story.
 
 ## Story S1: [short title]
+
+**Status:** Draft
+
+When the designer approves the story: `**Status:** Ready, approved by [role] on YYYY-MM-DD against rev-xxxxxxxxxxxx`. A rule change that touches this story sets it back to `Recheck: [rule IDs]`; work already done keeps its record.
 
 **Job story:** When [situation], I want to [goal], so I can [outcome].
 

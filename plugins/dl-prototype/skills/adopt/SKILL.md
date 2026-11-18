@@ -9,9 +9,11 @@ The existing-game start. It reads before it asks, and it changes nothing that al
 
 ## Where things come from
 
-This plugin's folders sit two levels up from this skill's folder: `principles/` and `templates/`. For any template, use `specs/overrides/templates/<file>` in the project if it exists, otherwise the plugin's `templates/<file>`.
+This plugin's folders sit two levels up from this skill's folder: `principles/`, `templates/` and `scripts/`. Run scripts with `python3 <plugin>/scripts/<name>.py` from the project root. For any template, use `specs/overrides/templates/<file>` in the project if it exists, otherwise the plugin's `templates/<file>`.
 
-Read `principles/06-two-starts.md` and `principles/02-who-decides.md` once before starting.
+Read `principles/06-two-starts.md`, `principles/02-who-decides.md` and `principles/07-open-questions.md` once before starting.
+
+Adoption is safe to run again: on a second run it reads what it wrote last time, adds only what is missing, and never duplicates a question or overwrites a decision.
 
 ## 1. Take stock (read only)
 
@@ -26,8 +28,12 @@ Write each file from its template, marked **Status: Draft (adopted)**, with ever
 
 1. `specs/constitution.md`: the game in three lines, pillars, platforms and boundary, out of scope, agent calls, where things live, document prefixes. Existing rules files and `CLAUDE.md` are the best source for agent calls and conventions.
 2. `specs/glossary.md`: player words and code words. Look for an existing vocabulary table first, then UI copy and code names. Where the two disagree, add both and raise an open question.
-3. `specs/open-questions.md`: **first ask which register is master from now on** (the new file with the old one frozen, or the old one kept and linked). Two live registers drift apart within days. Then import every **Open** question, keeping its original ID when it already follows a scheme and naming the old register in the "Was" column. Group by feature or screen; if the old register has no sections, group by the screen or area in the ID. Do not import resolved ones; link to the old register instead. Add new questions (`OQ-ADOPT-NNN`) for contradictions found in step 1.
-   - **More than about 30 open questions:** do not leave them as a flat import. Raise a triage question first: mark Blocking against the current milestone, or bulk-defer what falls outside it. Most old registers record no Blocking flag.
+3. **The open-questions register.** If the project already keeps questions somewhere, ask which is master from now on, one question, multiple choice (`principles/07-open-questions.md`). Record the answer in the constitution's "Open questions register" section, then:
+   - **Local becomes master** (recommended when the old list is a document nobody maintains): write the old register's **Open** rows to a tab-separated file (ID, Question, Proposal, Owner, Blocking, Spec, Was), keeping each original ID, with Blocking `?` where the old register has none. Import them with `register.py merge --rows <file> --source "<old register>"`. It skips IDs already present, so an interrupted or repeated adoption is safe. Add a dated "frozen" note to the old register if you may edit it; otherwise record the freeze date in the constitution's Legacy source line. Do not import resolved rows; link to the old register.
+   - **Legacy stays master** (when the team actively uses it): set Mode `legacy`, Master to its path or URL, and a Field map line. Import nothing. New questions and answers go there; if you cannot write to it, prepare the exact rows and report them as pending.
+   - **No earlier register:** keep the default.
+   - Add new questions (`OQ-ADOPT-NNN`) for contradictions found in step 1, in whichever register is master.
+   - **More than about 30 open questions:** raise a triage question first: mark Blocking against the current milestone, or bulk-defer what falls outside it. Until triaged, a feature with a `?` Blocking row cannot be marked Ready.
 4. `specs/sources.md`: map old documents to features (by feature, then project-wide, then not mapped). Mark Trust as `Unknown` unless you have checked the build or code.
 5. `specs/STATE.md`: where the project is now, from the newest production docs and tickets.
 6. Empty `specs/features/`, `specs/briefs/`, `specs/overrides/templates/` with a `.gitkeep` each.
@@ -37,7 +43,8 @@ Write each file from its template, marked **Status: Draft (adopted)**, with ever
 The project may already have an agent setup. Do not replace it.
 
 - If `AGENTS.md` does not exist, create it from the template.
-- If `CLAUDE.md` exists, propose adding `@AGENTS.md` as its first line and show the user the result. Change it only with a yes.
+- If `AGENTS.md` exists, keep it. Add the method's rules as a clearly headed section only with a yes, and never remove the project's own rules.
+- For the `CLAUDE.md` pointer, run `pointer.py --check` first. If a fix is needed and `CLAUDE.md` already exists, show the user the result and run `pointer.py` only with a yes. It adds `@AGENTS.md` once and keeps everything else; repeated runs change nothing.
 - If the existing setup conflicts with the method, list each conflict and ask how to resolve it, one at a time. Look especially for: agents that make design decisions; rules that forbid cross-document consistency checks (they block `analyze`); a second open questions register; ticket projects named differently in different documents.
 
 ## 4. Confirm

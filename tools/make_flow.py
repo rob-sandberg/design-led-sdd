@@ -128,7 +128,7 @@ text(x2 + 186, 636, "decisions written in,")
 text(x2 + 186, 656, "? removed")
 both(x2 + 173, 792, 848)
 text(x2 + 186, 826, "questions / answers")
-card(x2, 853, CW, 97, "Designer", ["decides gaps · marks Ready"], dark=True)
+card(x2, 853, CW, 97, "Designer", ["decides gaps · approves Ready"], dark=True)
 # red: clarify -> request (business questions)
 line([(x2, 768), (x1 + 173, 768), (x1 + 173, 687)], colour=RED)
 text(x1 + 14, 795, "business questions ·", fill=RED)
@@ -139,15 +139,15 @@ line([(x2 + CW, 243), (858, 243)])
 
 # ---------- Column 3: Analyse ----------
 x3 = 863
-card(x3, 195, CW, 97, "Analysis pack", ["spec · constitution · glossary"])
+card(x3, 195, CW, 97, "Analysis pack", ["this spec revision · context"])
 line([(x3 + 173, 292), (x3 + 173, 360)])
 card(x3, 365, CW, 127, "Checking agent",
-     ["fresh each run, sees no code,", "tickets or playtests"], label="AGENT")
+     ["spec-analyst: reads only the", "pack, no code or tickets"], label="AGENT")
 line([(x3 + 173, 492), (x3 + 173, 580)])
 text(x3 + 186, 541, "judge")
 card(x3, 585, CW, 98, "Analysis report", ["findings · blocking · advisory"])
 line([(x3 + 173, 683), (x3 + 173, 738)])
-card(x3, 743, CW, 98, "Ready gate", ["no blocking ? · no open finding"], stroke=2.6)
+card(x3, 743, CW, 98, "Ready check", ["designer’s yes · same revision"], stroke=2.6)
 # red: report -> designer
 line([(x3, 650), (838, 650), (838, 928), (819, 928)], colour=RED)
 
@@ -156,7 +156,7 @@ line([(x3 + CW, 792), (1233, 792), (1233, 243), (1253, 243)])
 
 # ---------- Column 4: Build ----------
 x4 = 1258
-card(x4, 195, CW, 97, "Tasks", ["job stories · Gherkin · tickets"])
+card(x4, 195, CW, 97, "Tasks", ["stories · test plan · test room"])
 line([(x4 + 173, 292), (x4 + 173, 324), (x4 + 78, 324), (x4 + 78, 360)])
 line([(x4 + 173, 324), (x4 + 268, 324), (x4 + 268, 360)], head=True)
 card(x4, 365, 157, 127, "Lead", ["plans, briefs,", "reviews"], label="AGENT")
@@ -168,7 +168,7 @@ text(x4 + 173, 555, "same files", anchor="middle")
 line([(x4 + 78, 492), (x4 + 78, 604)])
 line([(x4 + 268, 492), (x4 + 268, 604)])
 card(x4, 609, CW, 74, "Prove it on the target", [], title_size=21)
-text(x4 + 22, 669, "a playable build, not “it compiled”", size=14)
+text(x4 + 22, 669, "test plan run on a playable build", size=14)
 # red: prove -> designer (gaps)
 line([(x4 + 173, 683), (x4 + 173, 884), (819, 884)], colour=RED)
 text(845, 906, "gaps the spec doesn't decide", fill=RED)
@@ -195,7 +195,7 @@ card(x5, 850, CW, 104, "Graduation check", ["settled economy or rewards →", "p
 # big red loop: spec changes -> spec tree
 line([(x5 + CW, 780), (2024, 780), (2024, 985), (443, 985), (443, 575), (463, 575)], colour=RED, width=2)
 text(1024, 1013, "what the build teaches goes back into the spec", size=17, fill=RED, anchor="middle")
-text(1024, 1037, "Rule and scope changes rerun analyze; tuning changes go straight in.", size=14, anchor="middle")
+text(1024, 1037, "A rule change lapses approval and reruns analyze; a tuning change can carry it over.", size=14, anchor="middle")
 
 # footer
 out.append(f'<line x1="73" y1="1055" x2="1999" y2="1055" stroke="{INK}" stroke-width="1.5"/>')

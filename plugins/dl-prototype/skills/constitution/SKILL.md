@@ -11,7 +11,7 @@ If the project already has code, design docs or tickets, stop and suggest the `a
 
 ## Where things come from
 
-This plugin's folders sit two levels up from this skill's folder: `principles/` and `templates/`. For any template, use `specs/overrides/templates/<file>` in the project if it exists, otherwise the plugin's `templates/<file>`.
+This plugin's folders sit two levels up from this skill's folder: `principles/`, `templates/` and `scripts/`. Run scripts with `python3 <plugin>/scripts/<name>.py` from the project root. For any template, use `specs/overrides/templates/<file>` in the project if it exists, otherwise the plugin's `templates/<file>`.
 
 Read `principles/02-who-decides.md` once before starting.
 
@@ -29,17 +29,18 @@ Read `principles/02-who-decides.md` once before starting.
 4. Write:
    - `specs/constitution.md` from `constitution.md`
    - `AGENTS.md` at the repo root from `AGENTS.md`
-   - `CLAUDE.md` at the repo root containing `@AGENTS.md` (if a CLAUDE.md exists, add that line at the top and keep the rest)
-   - `specs/open-questions.md`, `specs/glossary.md`, `specs/STATE.md` from their templates
+   - the `CLAUDE.md` pointer: run `pointer.py`. It adds `@AGENTS.md` once and keeps everything else in an existing `CLAUDE.md`; running it again changes nothing
+   - `specs/open-questions.md`, `specs/glossary.md`, `specs/STATE.md` from their templates. The constitution's "Open questions register" section keeps its default (`specs/open-questions.md`, local) unless the team already keeps questions elsewhere; then ask, one question, which is master (`principles/07-open-questions.md`)
    - empty folders `specs/features/`, `specs/briefs/`, `specs/overrides/templates/` (with a `.gitkeep` each)
-5. Anything the designer could not answer stays as `?` in the constitution and gets an `OQ-NNN` row in the register.
-6. Show the constitution, and ask whether to mark it Agreed.
+5. Fill the Roles table: who is the designer, product owner, producer and QA here, and what titles they use. One person may hold several.
+6. Anything the designer could not answer stays as `?` in the constitution and gets an `OQ-NNN` row in the register (`register.py next-id`).
+7. Show the constitution, and ask whether to mark it Agreed.
 
 ## Updating
 
 1. Read the current constitution.
 2. Make the change the user asked for. Add a changelog row at the top.
-3. If the change touches pillars, scope or the boundary, list every feature spec that may now conflict, and offer to run `analyze` on them.
+3. Any change to the constitution makes earlier analysis reports out of date for the Ready check. List the features that are approved or in review. For each, offer a context recheck: a short `analyze` run that is given the constitution change and the feature's earlier findings, and reports which findings or rules the change touches, if any. A change that touches pillars, scope or the boundary may need a full run.
 
 ## Keep it short
 

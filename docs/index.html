@@ -84,7 +84,7 @@ footer strong{color:var(--ink)}
 
 <main>
 <div class="wrap hero">
-<p class="eyebrow">dl-prototype 0.2.1 · a Claude Code plugin</p>
+<p class="eyebrow">dl-prototype 0.3.0 · a Claude Code plugin</p>
 <h1>Spec-driven development, led by design.</h1>
 <p class="lead">A method for game teams working with AI agents. Design leads, code follows, and <em>every playtest feeds back into the spec</em>, with the reasons kept.</p>
 <div class="ctas">
@@ -132,11 +132,11 @@ footer strong{color:var(--ink)}
 <tbody>
 <tr><td>1</td><td>Spec first</td><td>Search the specs; raise real design decisions as open questions</td></tr>
 <tr><td>2</td><td>Choose the path</td><td>A brief for a small change, a feature spec for a new system</td></tr>
-<tr><td>3</td><td>Clarify</td><td>No feature leaves Draft with a blocking question</td></tr>
-<tr><td>4</td><td>Analyse</td><td>A separate agent checks the spec against everything else</td></tr>
-<tr><td>5</td><td>Break it down</td><td>Job stories with Gherkin acceptance criteria</td></tr>
+<tr><td>3</td><td>Clarify</td><td>No feature leaves Draft with a blocking question. QA joins here</td></tr>
+<tr><td>4</td><td>Analyse, approve</td><td>A separate agent checks this revision of the spec; then the designer says yes</td></tr>
+<tr><td>5</td><td>Break it down</td><td>Stories, a test plan and a test room; each story approved on its own</td></tr>
 <tr><td>6</td><td>Build</td><td>On a branch, in slices that can be played</td></tr>
-<tr><td>7</td><td>Prove it</td><td>On the real target. "It compiled" is not proof</td></tr>
+<tr><td>7</td><td>Prove it</td><td>On the real target, with the test plan. "It compiled" is not proof</td></tr>
 <tr><td>8</td><td>Playtest</td><td>What the build teaches goes back into the spec</td></tr>
 <tr><td>9</td><td>Write it down</td><td>State, decisions, and every mistake as a new rule</td></tr>
 </tbody>
@@ -165,12 +165,17 @@ footer strong{color:var(--ink)}
 <tr><td><code>adopt</code></td><td>Brings an existing game in from its own docs, code and registers</td><td>Changes nothing that already exists</td></tr>
 <tr><td><code>spec</code></td><td>Writes or revises a feature spec (full path)</td><td>Undecided places marked <code>?</code>, never guessed</td></tr>
 <tr><td><code>brief</code></td><td>One-page brief for a small change, optionally handed to a helper agent</td><td>Must end with proof on the target</td></tr>
-<tr><td><code>clarify</code></td><td>Works open questions down and finds unmarked gaps</td><td>No Ready while a blocking question is open</td></tr>
-<tr><td><code>analyze</code></td><td>Independent consistency check across specs, by a separate agent</td><td>No Ready with an unresolved finding</td></tr>
-<tr><td><code>tasks</code></td><td>Job stories, Gherkin criteria and tasks per discipline, ready for tickets</td><td>Only Ready specs</td></tr>
-<tr><td><code>playtest</code></td><td>Records a session and turns it into spec changes</td><td>Rule and scope changes rerun analyze</td></tr>
+<tr><td><code>clarify</code></td><td>Works open questions down, finds unmarked gaps, asks for approval</td><td>No approval without the designer's yes</td></tr>
+<tr><td><code>analyze</code></td><td>Independent check of one spec revision, by the <code>spec-analyst</code> agent</td><td>No Ready with an unresolved blocking finding</td></tr>
+<tr><td><code>tasks</code></td><td>Stories, scenarios tied to rule rows, tasks, test plan and test room</td><td>Only Ready specs; stories approved one by one</td></tr>
+<tr><td><code>playtest</code></td><td>Records a session and turns it into spec changes</td><td>A rule change lapses approval; tuning can keep it</td></tr>
 </tbody>
 </table>
+<p class="note">The checks that must not depend on a model are scripts with tests: <code>ready_check.py</code> says whether a spec or story is Ready and why; <code>spec_diff.py</code> says whether a change is tuning or a rule change. A <code>build-checker</code> agent maps each rule to code and tests.</p>
+<div class="grid g2" style="margin-top:28px">
+<div class="card"><p class="label">New in 0.3</p><h3>Ready, twice</h3><p>The designer approves the spec against its current revision, then each story. A rule change lapses the approval; a tuning change can carry it over.</p></div>
+<div class="card"><p class="label">New in 0.3</p><h3>Shift-left QA</h3><p>Every rule has examples, so a tester can start on any feature without a briefing: QA at Clarify, one test case per example row, a test room approved before the build.</p></div>
+</div>
 </div>
 </section>
 

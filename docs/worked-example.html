@@ -34,90 +34,74 @@ img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
 <header><div><a href="index.html">Design-led SDD</a><span>Worked example</span></div></header>
 <main>
 <h1>Design-led SDD: Worked example</h1>
-<p>One feature, F001 Daily tide gift, taken once round the whole prototype loop. Tidepool Keeper is a fictional cosy mobile game whose first design pillar is "Calm, never nagging". Every name, number and playtest result below is invented to show the method; none comes from a real project. The spec as it stood after step 2 is in <code>examples/tidepool-keeper</code>.</p>
-<h2>Step 1. Request</h2>
-<p>The product owner sends one line: <em>"Players should get something for coming back each day, but I don't want it to feel like a chore."</em></p>
-<p>The designer runs <code>/dl-prototype:spec</code>. The skill reads the constitution and glossary first, then checks the size: this is a new system other disciplines build on, so it takes the full path, not a brief. It checks the request against the pillars ("never nagging" rules out a streak that resets to zero) and creates <code>specs/features/F001-daily-tide-gift/spec.md</code>.</p>
+<p>One feature, F001 Daily tide gift, taken once round the whole prototype loop. Tidepool Keeper is a fictional cosy mobile game whose first design pillar is "Calm, never nagging". Every name, number and playtest result below is invented to show the method; none comes from a real project.</p>
+<p>Every step has a matching folder in <code>examples/tidepool-keeper/checkpoints</code>: the whole <code>specs/</code> folder as it stood at that moment. You can open any of them and run the Ready check on it. The checkpoint for each step is named in its heading.</p>
+<p>The team's titles are set in the constitution's Roles table: the Lead Designer is the method's designer, the Product Owner is the owner, and the QA Lead is QA.</p>
+<h2>Step 1. Request (checkpoint 01-start)</h2>
+<p>The Product Owner sends one line: <em>"Players should get something for coming back each day, but I don't want it to feel like a chore."</em></p>
+<p>The Lead Designer runs <code>/dl-prototype:spec</code>. The skill reads the constitution and glossary first, then checks the size: this is a new system other disciplines build on, so it takes the full path, not a brief. It checks the request against the pillars ("never nagging" rules out a streak that resets to zero) and creates <code>specs/features/F001-daily-tide-gift/spec.md</code>.</p>
 <p>It asks the designer one question at a time, for example:</p>
 <blockquote>
 <p><strong>When should a new gift become available?</strong> (a) 05:00 in the player's local time (recommended: late players are not cut off at midnight), (b) midnight local time, (c) 24 hours after the last claim.</p>
 </blockquote>
-<p>The designer picks (a). Questions only the owner can answer are not asked here; they become <code>?</code> places.</p>
-<h2>Step 2. Spec draft</h2>
-<p>The first draft is Status: Draft, with two <code>?</code> places the builders could not proceed without.</p>
-<p><strong>Intent.</strong> Give lapsed players a reason to open the game once a day without punishing them for missing one.</p>
-<p><strong>Scope.</strong> In: one gift per day, a visible countdown, a streak that never resets to zero. Out for now: player-chosen gifts, push notifications. Out for good: paying to claim a missed day.</p>
-<p><strong>Job stories</strong></p>
-<ol>
-<li>When I open the game for the first time today, I want to collect what the tide left, so I can feel the game noticed I came back.</li>
-<li>When I have already collected today's gift, I want to see when the next one arrives, so I can decide whether to come back tomorrow.</li>
-</ol>
-<p><strong>Rules</strong></p>
-<pre><code class="language-gherkin">Rule F001.claim-once: The gift can be claimed once per day
-  When      the player opens the beach screen
-  Provided  the player has not claimed since the last reset
-  Then      the gift is shown and can be claimed
-  Otherwise the beach shows the time until the next reset
-
-Rule F001.streak-floor: A missed day lowers the streak by one, never to zero
-  When      the player claims a gift
-  Provided  the player claimed in the previous day
-  Then      the streak goes up by one
-  Otherwise the streak goes down by one, to a minimum of ?
+<p>The designer picks (a). It becomes the parameter <code>reset_time</code>. Questions only the owner can answer are not asked here; they become <code>?</code> places.</p>
+<h2>Step 2. Spec draft (checkpoint 02-draft)</h2>
+<p>The first draft is Status: Draft, with two <code>?</code> places. Each cites its question in the register on the same line, so nobody has to guess what it waits on.</p>
+<p><strong>Rules</strong> (each has a When, a Provided, a Then and an Otherwise, and an examples table with both sides of the guard)</p>
+<pre><code class="language-gherkin">When      the player opens the beach
+Provided  the player has not claimed since the last Reset
+Then      the tide gift is on the beach and one tap claims it
+Otherwise the beach shows the time until the next Reset
 </code></pre>
 <table>
 <thead>
 <tr>
-<th>Rule</th>
-<th>Situation</th>
-<th>Provided</th>
-<th>Outcome</th>
+<th>situation</th>
+<th>provided</th>
+<th>outcome</th>
+<th>why</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>claim-once</td>
-<td>first open after the reset</td>
+<td>last claim yesterday at 09:00; opens today exactly at <code>reset_time</code></td>
 <td>yes</td>
-<td>gift shown</td>
+<td>tide gift shown</td>
+<td>the Reset has just passed</td>
 </tr>
 <tr>
-<td>claim-once</td>
-<td>claimed 10 minutes ago</td>
+<td>last claim yesterday at 09:00; opens today one minute before <code>reset_time</code></td>
 <td>no</td>
-<td>"Next tide in 13h 50m"</td>
+<td>countdown "Next tide in 1m"</td>
+<td>the Reset is a minute away</td>
 </tr>
 <tr>
-<td>streak-floor</td>
-<td>streak 4, claimed yesterday</td>
-<td>yes</td>
-<td>streak 5</td>
-</tr>
-<tr>
-<td>streak-floor</td>
-<td>streak 4, missed yesterday</td>
+<td>claimed today at 09:00; opens today at 09:10</td>
 <td>no</td>
-<td>streak 3</td>
-</tr>
-<tr>
-<td>streak-floor</td>
-<td>streak 1, missed three days</td>
-<td>no</td>
-<td>?</td>
+<td>countdown to the next <code>reset_time</code></td>
+<td>already claimed since the Reset</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Parameters.</strong> <code>reset_time</code> = 05:00 player's local time. <code>streak_floor</code> = ?.</p>
-<p><strong>Risk.</strong> If the player changes the device clock, then they can claim more than once a day. ?</p>
-<h2>Step 3. Clarify</h2>
-<p><code>/dl-prototype:clarify</code> lists the two marked <code>?</code> places, then checks the gap list and finds one more nobody had marked: what happens if the player is offline when they open the beach.</p>
+<p>The times are written against <code>reset_time</code>, not as clock times. That matters later: when playtesting moves the reset, these rows still hold.</p>
+<p>The other rules are F001.server-time (the server decides whether the Reset has passed: undecided, waiting on OQ-F001-002) and F001.streak-floor (how low the streak can fall: undecided, waiting on OQ-F001-001).</p>
+<p>The Ready check fails, and says why in plain lines:</p>
+<pre><code>Ready check (approve): FAIL
+  FAIL  OQ-F001-002 is open and blocking
+  FAIL  OQ-F001-001 is open and blocking
+  FAIL  line 59 is undecided and waits on OQ-F001-002
+  ...
+  FAIL  no analysis report: run analyze on this revision
+</code></pre>
+<h2>Step 3. Clarify (checkpoint 03-clarified)</h2>
+<p><code>/dl-prototype:clarify</code> lists the two marked <code>?</code> places, then checks the gap list and finds one nobody had marked: what happens if the player is offline when they open the beach. The QA Lead, who joins at Clarify, asks the same thing from the other side: "How would I test the claim with the network off?"</p>
 <table>
 <thead>
 <tr>
 <th>ID</th>
 <th>Question</th>
+<th>Proposal</th>
 <th>Owner</th>
-<th>Blocking</th>
 <th>Answer</th>
 </tr>
 </thead>
@@ -125,33 +109,30 @@ Rule F001.streak-floor: A missed day lowers the streak by one, never to zero
 <tr>
 <td>OQ-F001-001</td>
 <td>Lowest the streak can fall to: (a) 1, (b) half the best streak, (c) the last milestone</td>
-<td>Game Designer</td>
-<td>Yes</td>
-<td>(a) 1. Simplest to read; revisit after playtest</td>
+<td>(a)</td>
+<td>Lead Designer</td>
+<td>(a) 1</td>
 </tr>
 <tr>
 <td>OQ-F001-002</td>
-<td>Clock changes: (a) server time decides the reset, (b) device time, risk accepted, (c) device time with a server check on claim</td>
+<td>Phone clock moved forward a day: (a) the server decides, (b) device time, risk accepted, (c) device time, with a server check on claim</td>
+<td>(c)</td>
 <td>Product Owner</td>
-<td>Yes</td>
-<td>(c). Works offline; cheaters gain at most one gift</td>
+<td>(c)</td>
 </tr>
 <tr>
 <td>OQ-F001-003</td>
-<td>Offline on open: (a) show the gift, queue the claim, (b) grey the shell with "Tide is out"</td>
-<td>Game Designer</td>
-<td>Yes</td>
-<td>(b). Matches (c) above: a claim needs the server</td>
+<td>Opening the beach offline: (a) show the gift and queue the claim, (b) grey the shell with "Tide is out"</td>
+<td>(b)</td>
+<td>Lead Designer</td>
+<td>(b)</td>
 </tr>
 </tbody>
 </table>
-<p>The designer answers 001 and 003 on the spot, one multiple-choice question each. 002 is a business question about cheating risk, so clarify drafts a note for the product owner instead of answering it:</p>
-<blockquote>
-<p>A player sets their phone clock forward a day and opens the game. Should they get a second gift? (a) No, the server decides; the game needs a connection to claim. (b) Yes, we accept it. (c) Only if the server agrees when they claim; offline players wait.</p>
-</blockquote>
-<p>The owner picks (c). Each answer is written into the spec, the <code>?</code> removed, and the register row moved to Resolved with who decided. No blocking question is left.</p>
-<h2>Step 4. Analyse</h2>
-<p><code>/dl-prototype:analyze</code> starts a fresh checking agent that reads only the spec, constitution, glossary and register: no code, tickets or chat. It returns three findings, written to <code>analysis-2026-11-09.md</code>.</p>
+<p>The designer answers 001 and 003, one multiple-choice question each. 002 is a business question about cheating risk, so clarify drafts a note for the Product Owner instead of answering it. Each answer goes into the spec; 003 becomes a new rule, F001.offline, and an Offline state. The register rows move to Resolved, with who decided.</p>
+<p>No <code>?</code> is left, but the check still fails: nobody independent has read this revision yet.</p>
+<h2>Step 4. Analyse (checkpoint 04-analysed)</h2>
+<p><code>/dl-prototype:analyze</code> hands the spec, constitution, glossary and the feature's register rows to the plugin's <code>spec-analyst</code> agent. It can only read what it is given: no code, tickets, chats or earlier reports. Its report, <code>analysis-2026-11-19-01.md</code>, records which revision it read (<code>rev-8a70386003e4</code>), the context it read, and what access the reviewer had.</p>
 <table>
 <thead>
 <tr>
@@ -159,7 +140,7 @@ Rule F001.streak-floor: A missed day lowers the streak by one, never to zero
 <th>Kind</th>
 <th>Where</th>
 <th>Finding</th>
-<th>Resolution</th>
+<th>Severity</th>
 </tr>
 </thead>
 <tbody>
@@ -167,153 +148,105 @@ Rule F001.streak-floor: A missed day lowers the streak by one, never to zero
 <td>1</td>
 <td>Gap</td>
 <td>F001.claim-once</td>
-<td>Examples cover only one claim per day; nothing says what the reward is</td>
-<td>Designer adds a <code>gift_table</code> parameter and a third example</td>
+<td>Nothing says what the tide gift contains, so the claim cannot be built or tested</td>
+<td>Blocking</td>
 </tr>
 <tr>
 <td>2</td>
-<td>Value inside rule</td>
-<td>F001.streak-floor</td>
-<td>"down by one" puts a tuning value in the rule text</td>
-<td>Moved to parameter <code>streak_penalty</code> = 1</td>
+<td>Untestable</td>
+<td>F001.server-time</td>
+<td>The refused claim's countdown has no example with a time</td>
+<td>Advisory</td>
 </tr>
 <tr>
 <td>3</td>
-<td>State missing</td>
-<td>States table</td>
-<td>Offline state from OQ-F001-003 is reachable but not listed</td>
-<td>Added "Offline: shell greyed, Tide is out"</td>
+<td>Dependency</td>
+<td>Dependencies</td>
+<td>The claim endpoint is stubbed, so the clock case cannot be proved until it exists</td>
+<td>Advisory</td>
 </tr>
 </tbody>
 </table>
-<p>All three are resolved by edits, and the designer marks the spec <strong>Ready</strong>. The report also says what it could not judge: whether the claim moment feels like a small surprise. That is left to the playtest.</p>
-<h2>Step 5. Tasks</h2>
-<p><code>/dl-prototype:tasks</code> asks which slice to ticket and recommends the smallest playable one: claiming the gift, without the streak. It writes <code>tasks.md</code> with one story.</p>
-<p><strong>Story S1: Claim the daily tide gift.</strong> When I open the game for the first time today, I want to collect what the tide left, so I can feel the game noticed I came back. Implements F001.claim-once.</p>
-<pre><code class="language-gherkin">Scenario: Gift waiting after the reset
-  Given the player last claimed before today's 05:00 reset
-  When  they open the beach screen while online
-  Then  the shell glows and one tap claims the gift
-
-Scenario: Already claimed today (guard)
-  Given the player claimed at 09:00 today
-  When  they open the beach screen at 09:10
-  Then  the beach shows &quot;Next tide in 19h 50m&quot; and no shell
-
-Scenario: Offline on open (error)
-  Given the player has not claimed today
-  When  they open the beach screen with no connection
-  Then  the shell is greyed with &quot;Tide is out&quot; and cannot be tapped
+<p>The report also says what it could not judge: whether the claim feels like a small surprise. That is left to the playtest.</p>
+<h2>Step 5. Fix and recheck (checkpoint 05-reviewed)</h2>
+<p>The designer adds a <code>gift_table</code> parameter and an example that uses it. That edit changes the spec's revision (now <code>rev-d2ee83c64152</code>), so the first report no longer counts. Marking finding 1 "Fixed" in that report is not enough: the check asks for a report on the edited spec.</p>
+<p>A focused rerun, <code>analysis-2026-11-19-02.md</code>, rechecks the edited rule, the Parameters table and the earlier findings. It finds no blocking problems; the advisory finding is carried and left open, which is allowed. The approve-stage check now passes. The ticket stage still fails: nobody has said yes.</p>
+<h2>Step 6. Approve the spec (checkpoint 06-approved)</h2>
+<p>Clarify asks the designer: "Mark F001 Ready against <code>rev-d2ee83c64152</code>, with one advisory finding left open?" The designer says yes. Only then does the agent fill the Approval section:</p>
+<pre><code>- Ready: Yes
+- Approved by: Lead Designer
+- Date: 2026-11-19
+- Revision: rev-d2ee83c64152
+- Commit: working copy
+- Analysis: analysis-2026-11-19-02.md
 </code></pre>
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Discipline</th>
-<th>Task</th>
-<th>Depends on</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>S1.T1</td>
-<td>Design</td>
-<td>Shell states: waiting, claimed, offline</td>
-<td></td>
-</tr>
-<tr>
-<td>S1.T2</td>
-<td>Art</td>
-<td>Shell sprite and glow, three states</td>
-<td>S1.T1</td>
-</tr>
-<tr>
-<td>S1.T3</td>
-<td>Engineering</td>
-<td>Claim with server check; countdown from <code>reset_time</code></td>
-<td>S1.T2</td>
-</tr>
-<tr>
-<td>S1.T4</td>
-<td>QA</td>
-<td>Pass or fail per scenario, on Android and iOS</td>
-<td>S1.T3</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Proved by:</strong> the designer claims on a phone, changes the device clock, and confirms no second gift. <strong>Not ticketed:</strong> the streak, left for the next slice.</p>
-<h2>Step 6. Build and prove</h2>
-<p>The lead agent writes one brief per engineering task and hands each to a single helper, never two on the same files. The engineering brief, B001, ends with its proof step:</p>
-<blockquote>
-<p><strong>Prove it:</strong> run the build on the Android emulator, claim once, set the device clock forward a day, reopen online and offline. Report what the beach showed each time.</p>
-</blockquote>
-<p>The helper reports back in under ten lines: claim works, offline greys the shell, but the clock test shows a second gift. The server check was reading device time. That is a defect, not a spec gap, so it is fixed in the same brief and proved again.</p>
-<p>The helper also reports one real gap: the spec never says whether the countdown keeps ticking while the app is in the background. The lead raises <strong>OQ-F001-004</strong> instead of guessing, and the designer answers it (yes, it is computed from <code>reset_time</code> on resume).</p>
-<h2>Step 7. Playtest</h2>
-<p>Six internal players use the build for a week; the producer collects notes. <code>/dl-prototype:playtest</code> separates what players did from what they said, then writes Session 1 at the top of <code>playtest-log.md</code>.</p>
-<p><strong>What we saw (observations)</strong></p>
+<p>Recording the approval does not change the revision: the Approval, Changelog, Status and date lines are left out of it on purpose.</p>
+<h2>Step 7. Tasks, test plan and test room (checkpoint 07-ticketed)</h2>
+<p><code>/dl-prototype:tasks</code> runs the ticket-stage check first, then asks which slice to ticket and recommends the smallest playable one: claiming the gift, without the streak. It writes <code>tasks.md</code> with one story, S1, written as Draft. Each scenario names the rule and example row it comes from:</p>
+<pre><code class="language-gherkin">Scenario: Already claimed today (F001.claim-once, row 3: guard)
+  Given the player claimed today after the Reset
+  When  they open the beach ten minutes later
+  Then  no gift is shown, and the beach shows the time to the next Reset
+</code></pre>
+<p>In the same step, QA is brought in early:</p>
 <ul>
-<li>Four of six players claimed on the first open of each day.</li>
-<li>Two players opened the beach before 05:00 on most days and saw only a countdown.</li>
-<li>No player opened the beach twice in one day to check the countdown.</li>
+<li><strong><code>test-plan.md</code></strong>: one case per example row in the slice, five in all, such as <code>TC-F001.claim-once-03</code> (Guard) and <code>TC-F001.offline-01</code> (Error). The server-time case is already marked Blocked, because the endpoint is stubbed.</li>
+<li><strong><code>test-room.md</code></strong>: one greybox beach with a spawn and debug keys to set the clock (T), move only the phone's clock (C) and drop the network (N). The designer approves it before S1 is built.</li>
+<li><strong><code>summary.md</code></strong>: the feature in plain words, for a new tester or the Product Owner. A tester can start here with no briefing.</li>
 </ul>
-<p><strong>Hypotheses</strong></p>
+<p>The designer approves S1 as its own step. Its Status line now reads "Ready, approved by Lead Designer on 2026-11-19 against rev-d2ee83c64152", and the story-stage check passes. Tickets stay in <code>tasks.md</code> in this example.</p>
+<h2>Step 8. Build and prove (checkpoint 08-proved)</h2>
+<p>The lead agent writes brief B001 and hands it to a single helper. It ends with its proof step: run the build on the Android emulator, claim once, press C, reopen online and offline, and report what the beach showed.</p>
+<p>The helper reports back: the clock test showed a second gift. The stub was reading the phone's clock. That is a defect, not a spec gap, so it is fixed in the same brief and proved again. The helper also reports one real gap: does the countdown keep counting while the app is in the background? The lead raises <strong>OQ-F001-004</strong> (not blocking) instead of guessing.</p>
+<p>The QA Lead runs the test plan on build 0.1.7: five cases run, four pass, one blocked by the stub. The plugin's <code>build-checker</code> agent can do the same mapping on the code side, rule by rule, without changing anything.</p>
+<h2>Step 9. Playtest and tuning (checkpoint 09-tuned)</h2>
+<p>The hypotheses in the spec cover only what was built. There is no streak hypothesis, because the streak was not in the build. Each has its Held and Failed lines written down before anyone plays:</p>
 <table>
 <thead>
 <tr>
 <th>#</th>
 <th>Hypothesis</th>
+<th>Held if</th>
+<th>Failed if</th>
 <th>Result</th>
-<th>Evidence</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>1</td>
-<td>A gift on first open brings lapsed players back to the beach</td>
-<td>Unclear</td>
-<td>Too few lapsed days in one week</td>
+<td>Players claim on their first visit to the beach each day</td>
+<td>4 or more of 6, on most days</td>
+<td>2 or fewer</td>
+<td>Held</td>
 </tr>
 <tr>
 <td>2</td>
-<td>Players use the countdown to plan their return</td>
+<td>Few players meet a countdown on their first open</td>
+<td>no more than 1 of 6</td>
+<td>2 or more</td>
 <td>Failed</td>
-<td>Nobody rechecked the countdown</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Proposed spec changes</strong>, each accepted by the designer one at a time:</p>
-<table>
-<thead>
-<tr>
-<th>Spec part</th>
-<th>Change</th>
-<th>Kind</th>
-<th>Accepted</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Parameter <code>reset_time</code></td>
-<td>05:00 to 04:00</td>
-<td>Tuning</td>
-<td>Yes, applied directly</td>
-</tr>
-<tr>
-<td>Job story 2</td>
-<td>Dropped; countdown kept as a small label only</td>
-<td>Scope</td>
-<td>Yes, <code>analyze</code> rerun</td>
-</tr>
-<tr>
-<td>Pillar "never nagging"</td>
-<td>One player wanted a reminder; challenges the pillar</td>
-<td>Pillar</td>
-<td>Flagged to the designer, no change</td>
-</tr>
-</tbody>
-</table>
-<p>The graduation check runs last. The feature gives out currency, but the last session still changed scope, so it stays in the prototype tier for now.</p>
+<p>Two players opened the beach before 05:00 on most days. The designer moves <code>reset_time</code> to 04:00. <code>spec_diff.py</code> confirms the kind of change:</p>
+<pre><code>Change: tuning (rev-d2ee83c64152 to rev-7a9c2eb43fb2)
+Sections changed: Parameters
+Parameters changed: reset_time
+</code></pre>
+<p>Because only a parameter changed, and S1's scenarios name <code>reset_time</code> rather than a clock time, the designer carries the approval over instead of rerunning analysis. The Approval section gets the new revision and one more line:</p>
+<pre><code>- Carried over: from rev-d2ee83c64152, tuning only (reset_time 05:00 to 04:00)
+</code></pre>
+<p>The three test cases that set the clock by <code>reset_time</code> are marked to be rerun on the next build. All three stages of the Ready check still pass.</p>
+<h2>Step 10. A rule change (checkpoint 10-revised)</h2>
+<p>The playtest also showed that no player went back to check the countdown. The designer drops job story 2 and changes F001.claim-once's Otherwise: the beach now shows the empty shell, with no countdown. That is a rule change, not tuning:</p>
+<pre><code>Change: rule (rev-7a9c2eb43fb2 to rev-681876b2e441)
+Rules changed: F001.claim-once
+Story S1 (...): F001.claim-once
+Case TC-F001.claim-once-01: F001.claim-once
+Case TC-F001.claim-once-02: F001.claim-once
+Case TC-F001.claim-once-03: F001.claim-once
+</code></pre>
+<p>So the approval lapses. The spec goes back to Draft, S1 is marked <code>Recheck: F001.claim-once</code>, and the three cases are marked Stale. Nothing is deleted: the built work and its test record stay. The offline case is untouched, because F001.offline did not change. The next move is analyze on the new revision, then the designer's yes, then the story again.</p>
 <h2>What changed in the spec</h2>
 <p>The spec's own changelog after one loop, newest first.</p>
 <table>
@@ -321,34 +254,39 @@ Scenario: Offline on open (error)
 <tr>
 <th>Step</th>
 <th>Change</th>
-<th>Source</th>
+<th>Effect on approval</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>7. Playtest</td>
-<td><code>reset_time</code> 05:00 to 04:00; job story 2 dropped</td>
-<td>Session 1: early openers, countdown unused</td>
+<td>10</td>
+<td>Job story 2 dropped; F001.claim-once shows the empty shell</td>
+<td>Lapsed; S1 to Recheck; three cases Stale</td>
 </tr>
 <tr>
-<td>6. Build</td>
-<td>Countdown computed from <code>reset_time</code> on resume</td>
-<td>OQ-F001-004, raised by the helper</td>
+<td>9</td>
+<td><code>reset_time</code> 05:00 to 04:00</td>
+<td>Carried over as tuning</td>
 </tr>
 <tr>
-<td>4. Analyse</td>
-<td><code>gift_table</code> and <code>streak_penalty</code> parameters; Offline state added</td>
-<td>Analysis findings 1 to 3</td>
+<td>6</td>
+<td>Ready (Lead Designer), against <code>rev-d2ee83c64152</code></td>
+<td>Approved</td>
 </tr>
 <tr>
-<td>3. Clarify</td>
-<td>Streak floor 1; server check on claim; offline greys the shell</td>
-<td>OQ-F001-001 to 003</td>
+<td>5</td>
+<td><code>gift_table</code> added (analysis run 01, finding 1)</td>
+<td>New revision; focused rerun</td>
 </tr>
 <tr>
-<td>2. Spec</td>
-<td>First draft with two <code>?</code> places</td>
-<td>Owner's request</td>
+<td>3</td>
+<td>Questions 001 to 003 answered; F001.offline added</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>First draft</td>
+<td></td>
 </tr>
 </tbody>
 </table>

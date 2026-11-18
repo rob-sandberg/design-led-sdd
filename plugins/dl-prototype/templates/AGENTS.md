@@ -11,10 +11,12 @@ Rules for any AI agent working in this repository. Claude Code reads this throug
 ## While working
 
 - Build from the spec. Where the spec does not decide something, stop and report the gap with a recommendation, unless the constitution lists it as an agent call.
-- Never change a spec's meaning silently. Raise an open question in `specs/open-questions.md`.
+- Never change a spec's meaning silently. Raise an open question in the register the constitution names (default `specs/open-questions.md`).
+- Build nothing from a spec or story that is not Ready against the spec's current revision. The dl-prototype Ready check (`ready_check.py`) says which.
 - Mark undecided places with `?`. Nothing with a blocking `?` is built.
 - Prove work on the target named in the constitution. Say how you proved it.
 - Ask one question at a time, as multiple choice with the recommended option first.
+- Edit shared files (the register, `specs/STATE.md`, the glossary) with an exact replacement of the lines you change, after reading them just before. Never rewrite the whole file.
 
 ## After working
 

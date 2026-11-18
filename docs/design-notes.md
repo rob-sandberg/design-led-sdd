@@ -66,9 +66,29 @@ Decision: a new game starts with `constitution`; an existing game starts with `a
 4. **Ask for code or build access up front.** Without it, every document's trust stays Unknown.
 5. **Look for setup rules that block the method,** such as a rule forbidding cross-document consistency checks, agents that make design decisions, or ticket projects named differently in different documents.
 
+## 6. Version 0.3: lessons from a real project and an outside review
+
+Two sources shaped 0.3. One was a week of use on a real Unity puzzle game: 12 feature folders, more than 30 analysis reports and around 300 commits. The other was a review of 0.2 by another model, written as an implementation brief.
+
+**What the project showed**
+
+1. **Ready was being decided twice in practice**, once for the spec and once per story, but the method only described one. 0.3 makes both explicit, and both need the designer's yes.
+2. **Analysis was rerun many times on the same feature,** and nobody could tell which run had read which text. Every report now names the spec revision it read, and the Ready check refuses a report on an older revision. A focused rerun on the edited parts is allowed.
+3. **The team wrote project agents** for analysis and build checks. The plugin now ships both, with limited tools.
+4. **Testers worked straight from the specs**, using test rooms and plain summaries. This became shift-left QA: QA at Clarify, a test plan from the example rows, a test room approved before building.
+5. **Questions with a proposal got answered faster.** The register now has a Proposal column.
+6. **Changelog rows said who decided and who applied the change.** The template now asks for both.
+7. **Agents did a lot of housekeeping** (state files, board tidying). The constitution now lets agents make process calls that change no game rule, as long as they list each in one line.
+
+**What the review asked for** was that the two key behaviours, Ready and change control, be checked by scripts with tests rather than by a model's reading of a skill. That is the job of `ready_check.py` and `spec_diff.py`, with tests that run on the Tidepool Keeper checkpoints.
+
+**Left for later:** session claims and engine locks, project boards and their drift reports, a long state history. They worked on the project but are specific to its tools. They may come back as optional modules in 0.4.
+
 ## Open
 
 - **Licence and ownership.** The repository is private and all rights are reserved until a licence is chosen and ownership (personal or studio) is settled.
 - **The production tier.** Not yet designed beyond the list in section 2.
 - **The method flow diagram** shows the loop but not the two starts; the loop diagram does.
+- **Live checks.** The scripts are tested, but the skills and agents in 0.3 have not yet been run end to end in a live Claude Code session. A smoke-test checklist is in `docs/smoke-test.md`.
+- **Reviewer access.** An agent's tools can be limited; which files it reads cannot. The `spec-analyst` works only from pasted inputs, and each report's Access line says what it could reach.
 - **Copies on claude.ai.** The method guide, worked example and cheat sheet also exist as claude.ai artifacts. This repository is the source of truth; the artifacts may lag behind it.

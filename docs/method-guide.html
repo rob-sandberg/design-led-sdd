@@ -34,8 +34,8 @@ img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
 <header><div><a href="index.html">Design-led SDD</a><span>Method guide</span></div></header>
 <main>
 <h1>Design-led SDD: Method guide</h1>
-<p>Design-led SDD is a spec-driven method for game teams working with AI agents, where design leads and code follows. Games find their design by being played, so the spec has to change after every playtest without losing the reasons behind it. This guide covers the prototype tier, shipped as the Claude Code plugin <code>dl-prototype</code> 0.2.1; a production tier for rules that must stay true across many changes is planned.</p>
-<p>Sections 1 to 6 describe the method, section 7 the skills that run it, and section 8 what it puts in a project.</p>
+<p>Design-led SDD is a spec-driven method for game teams working with AI agents, where design leads and code follows. Games find their design by being played, so the spec has to change after every playtest without losing the reasons behind it. This guide covers the prototype tier, shipped as the Claude Code plugin <code>dl-prototype</code> 0.3.0; a production tier for rules that must stay true across many changes is planned.</p>
+<p>Sections 1 to 6 describe the method, section 7 the skills, agents and scripts that run it, and section 8 what it puts in a project. Section 4 covers the two-step Ready check and section 9 shift-left QA, both new in 0.3.</p>
 <p><img alt="The dl-prototype method flow" src="dl-prototype-flow.png" /></p>
 <h2>1. The loop</h2>
 <p>The designer directs and decides; agents do most of the hands-on work, and every build feeds back into the spec.</p>
@@ -197,6 +197,11 @@ img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
 <td>Overrides a spec silently</td>
 </tr>
 <tr>
+<td>QA</td>
+<td>Test evidence: what passed, failed or could not be run, on which build</td>
+<td>Changes a spec to match the build</td>
+</tr>
+<tr>
 <td>Agents</td>
 <td>Nothing about the game; they report what the spec did not decide</td>
 <td>Fill a design gap with a guess and carry on</td>
@@ -208,19 +213,25 @@ img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
 <li>Business questions go to the owner. The place stays open (<code>?</code>) until they answer.</li>
 <li>Every hole ends decided in the spec, or open in the register with an owner.</li>
 <li>Spec conflicts are raised as open questions, never resolved quietly.</li>
+<li>Ready is the designer's call, twice: once for the spec, once for each story. An agent records an approval only after an explicit yes.</li>
 <li>Questions are asked one at a time, as multiple choice with the recommended option first.</li>
 </ul>
+<p>These are the method's role names. Each project maps them to its own titles in the constitution's Roles table, for example a Creative Director as the designer.</p>
 <h2>4. Ready and done</h2>
 <p>Work that does not meet Ready stays in the queue; work that does not meet Done does not move to Done. Work that fails review never moves backwards: the rework is a new item.</p>
-<p><strong>A feature spec is Ready when</strong></p>
+<p><strong>Every spec has a revision.</strong> <code>scripts/spec_rev.py</code> turns the spec's design content into a short ID such as <code>rev-d2ee83c64152</code>. Status, dates, the Approval section and the changelog are left out, so recording an approval does not change it. Any edit to the design does. Analysis reports, approvals, stories and test plans all name the revision they were made against.</p>
+<p><strong>A feature spec is Ready for approval when</strong> (<code>ready_check.py --stage approve</code>)</p>
 <ol>
-<li>Intent, player experience and scope (in and out) are written</li>
-<li>Every rule has at least one example</li>
-<li>No blocking open question is still Open</li>
-<li>Every special term is in the glossary</li>
-<li><code>analyze</code> has run on its final state with no unresolved finding</li>
-<li>The designer has marked it Ready</li>
+<li>Intent, player experience and scope are written</li>
+<li>Every rule has an Otherwise and examples on both sides of its guard</li>
+<li>Every term is in the glossary</li>
+<li>No open question for the feature is blocking or untriaged, and no <code>?</code> waits on one</li>
+<li>The latest analysis report read this revision, and the constitution and glossary it read are still current</li>
+<li>Every blocking finding in it is dismissed with a reason and who decided. A finding fixed by editing the spec needs a fresh report on the edited spec</li>
 </ol>
+<p><strong>It is Ready</strong> (<code>--stage ticket</code>) when, on top of that, the designer has said yes and the Approval section records who, when, the revision, the commit and the report. Only Ready specs are ticketed.</p>
+<p><strong>A story is Ready</strong> (<code>--stage story --story S1</code>) when the designer has approved it against the current revision. Each story is approved on its own, after its scenarios and test cases are written.</p>
+<p><strong>After a change:</strong> a rule or scope change lapses the approval on its own, because the revision changes. Stories citing the changed rules go to Recheck, and test cases citing them to Stale; built work keeps its record. A change to Parameters only is tuning: the designer can carry the approval over, and the Ready check accepts the earlier report. <code>spec_diff.py</code> says which kind a change is.</p>
 <p><strong>Any task is Ready when</strong> its title follows the naming convention, it links to its spec or brief, it has at least three acceptance criteria (what, not how), its parent story is linked, and its dependencies are done or accepted as a risk.</p>
 <p><strong>Any task is Done when</strong> every acceptance criterion is verified on the target, a second person or a separate checking agent has reviewed it, no known defect blocks the next discipline, a one-sentence completion note exists, and any deviation from the spec is written into the spec or raised as an open question.</p>
 <p><strong>A story is Done when</strong> all its tasks are Done, the player can do what the job story says in a playable build, a designer or producer has played it, and its happy path, guard and error scenarios pass.</p>
@@ -338,7 +349,7 @@ img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
 <p><strong>A feature graduates when</strong> getting a rule wrong costs real money or trust (economy, rewards, purchases, ads, progression, outcome resolution, age gates, consent); when other features keep breaking as it changes; when it is live and changed by people who did not design it; or when playtests only change its tuning values.</p>
 <p>Feel and visual work (layout, juice, animation, art direction) stays in the prototype tier for the life of the game.</p>
 <p><strong>Writing for graduation now</strong> keeps the move cheap: guarded rules with an <code>Otherwise</code>, a stable ID per rule (<code>F003.claim-once</code>), and tuning values in the Parameters table, not in rule text.</p>
-<h2>7. The eight skills</h2>
+<h2>7. Skills, agents and scripts</h2>
 <p>Each skill runs one step in Claude Code, asks one question at a time, and writes into the project's <code>specs/</code> folder.</p>
 <table>
 <thead>
@@ -376,27 +387,80 @@ img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
 </tr>
 <tr>
 <td><code>clarify</code></td>
-<td>Works through open questions and finds unmarked gaps</td>
+<td>Works through open questions, finds unmarked gaps, and asks the designer for approval</td>
 <td>Blocking questions remain, or answers come back</td>
-<td>No Ready while a blocking question is Open</td>
+<td>No approval without the designer's yes</td>
 </tr>
 <tr>
 <td><code>analyze</code></td>
-<td>Checks a spec against the constitution, glossary and other specs, as a separate agent</td>
-<td>Before Ready, after a revision or playtest change</td>
-<td>No Ready with an unresolved blocking finding</td>
+<td>Has the <code>spec-analyst</code> agent check this revision against the constitution, glossary and other specs</td>
+<td>Before approval, after any design edit</td>
+<td>Reports name the revision they read</td>
 </tr>
 <tr>
 <td><code>tasks</code></td>
-<td>Turns a Ready spec into job stories, Gherkin criteria and tasks per discipline</td>
+<td>Turns a Ready spec into stories, scenarios tied to rule rows, tasks, a test plan and a test room</td>
 <td>The team needs tickets</td>
-<td>Only Ready specs; no criteria the spec does not support</td>
+<td>Only Ready specs; each story approved on its own</td>
 </tr>
 <tr>
 <td><code>playtest</code></td>
-<td>Records a session and turns it into spec changes</td>
+<td>Records a session against hypotheses for the built slice, and turns it into spec changes</td>
 <td>After anyone plays a build</td>
-<td>Rule and scope changes rerun <code>analyze</code></td>
+<td>Rule changes lapse approval; tuning can carry it over</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agents</strong> the plugin ships, each with limited tools:</p>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Tools</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec-analyst</code></td>
+<td>Read</td>
+<td>Reviews only the inputs the lead pastes in, so it cannot drift into code or chat</td>
+</tr>
+<tr>
+<td><code>build-checker</code></td>
+<td>Read, Glob, Grep, Bash</td>
+<td>Maps each rule and example row to code and tests: Covered, Built but untested, Missing, Contradicts spec, Spec unclear. Changes nothing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Scripts</strong> (Python, standard library only, in <code>scripts/</code>), which the skills run so the checks do not depend on a model's judgement:</p>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ready_check.py</code></td>
+<td>The Ready check, at the approve, ticket or story stage; exit 0 pass, 1 fail</td>
+</tr>
+<tr>
+<td><code>spec_rev.py</code></td>
+<td>Prints a spec's revision</td>
+</tr>
+<tr>
+<td><code>spec_diff.py</code></td>
+<td>Says whether a change is tuning or a rule change, and which stories and test cases it touches</td>
+</tr>
+<tr>
+<td><code>register.py</code></td>
+<td>Finds the open-questions register, lists rows, gives the next ID, merges imports safely</td>
+</tr>
+<tr>
+<td><code>pointer.py</code></td>
+<td>Makes sure <code>CLAUDE.md</code> points to <code>AGENTS.md</code> exactly once</td>
 </tr>
 </tbody>
 </table>
@@ -428,7 +492,7 @@ img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
 </tr>
 <tr>
 <td><code>specs/open-questions.md</code></td>
-<td>Every undecided place, with owner and blocking flag</td>
+<td>Every undecided place, with owner, proposal and blocking flag. The constitution can name another master instead</td>
 </tr>
 <tr>
 <td><code>specs/sources.md</code></td>
@@ -436,7 +500,7 @@ img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
 </tr>
 <tr>
 <td><code>specs/features/F001-name/</code></td>
-<td><code>spec.md</code>, <code>tasks.md</code>, <code>playtest-log.md</code>, dated analysis reports</td>
+<td><code>spec.md</code>, analysis reports (<code>analysis-YYYY-MM-DD-NN.md</code>), <code>tasks.md</code>, <code>test-plan.md</code>, <code>test-room.md</code>, <code>summary.md</code>, <code>playtest-log.md</code></td>
 </tr>
 <tr>
 <td><code>specs/briefs/B001-name.md</code></td>
@@ -449,6 +513,16 @@ img{max-width:100%;height:auto;border:1.5px solid var(--ink);border-radius:5px}
 </tbody>
 </table>
 <p><strong>Three layers, highest first:</strong> project overrides in <code>specs/overrides/templates/</code>; the project layer (constitution, glossary, specs); the method (this plugin's principles and templates). Projects update the plugin for improvements and never edit it in place.</p>
+<h2>9. Shift-left QA</h2>
+<p>Because every rule comes with its examples, a tester can start on a feature at any point without a briefing. The method builds on that:</p>
+<ul>
+<li><strong>QA joins at Clarify.</strong> A rule that cannot be tested is a gap, raised as an open question like any other. The analysis checklist includes testability.</li>
+<li><strong>One test case per example row.</strong> <code>tasks</code> drafts <code>test-plan.md</code> with IDs such as <code>TC-F001.claim-once-03</code>, each naming its rule, row, set-up, expected result and kind (Happy, Guard, Error, Boundary).</li>
+<li><strong>A test room before the build.</strong> <code>test-room.md</code> is a greybox space with a spawn or marker for each case, approved before the stories that use it are built.</li>
+<li><strong>A plain summary.</strong> <code>summary.md</code> explains the feature for someone outside the team.</li>
+<li><strong>Evidence by build.</strong> Each case records Pass, Fail or Blocked, and the build. When a rule changes, <code>spec_diff.py</code> marks the cases that cite it as Stale.</li>
+<li><strong>A wrong spec is not a failed test.</strong> If the build is right and the spec is wrong or silent, QA raises an open question; QA never edits the spec to match.</li>
+</ul>
 <h2>Where it comes from</h2>
 <table>
 <thead>
